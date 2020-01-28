@@ -2,25 +2,89 @@ import { Token } from "./token";
 import "./unicode";
 
 export class Tokens {
-    private incoming: IterableIterator<string>;
-    private outgoing: Array<string>;
+    private readonly incoming: IterableIterator<string>;
+    private readonly outgoing: Array<string>;
     constructor(input: string) {
         this.incoming = input[Symbol.iterator]();
         this.outgoing = new Array<string>();
     }
 
-    token(): Token {
+    // Main iterator, caller should use for..of to get tokens
+    *[Symbol.iterator](): IterableIterator<Token> {
+        while (true) {
+            const next = this.incoming.next();
+
+            if (next.done) {
+                break;
+            }
+
+            const rune = next.value;
+            if (typeof rune !== 'string') { throw `${rune} is not a string`; }
+            if (!rune.isRune()) { throw `${rune} is not a single unicode character`; }
+
+            this.accept(rune);
+
+            if (rune.isSpace()) {
+                yield this.token();
+                continue;
+            }
+
+            if (rune.isPunct()) {
+                if (!rune.mightBeLeadingPunct()) {
+                    // Regular punct, emit it
+                    yield this.token();
+                    continue;
+                }
+
+                // Might be leading punct, like .Net, let's figure it out
+
+                // Lookahead to see if followed by a letter
+                // Remember, once we've looked ahead, we need to do something with that value, can't rewind
+                const lookahead = this.incoming.next();
+
+                if (lookahead.done) {
+                    // Regular punct, emit it
+                    yield this.token();
+                    continue;
+                }
+
+                if (lookahead.value.isPunct() || lookahead.value.isSpace()) {
+                    // Rune is a terminator, emit it
+                    yield this.token();
+
+                    // Emit the lookahead value
+                    this.accept(lookahead.value);
+                    yield this.token();
+
+                    continue;
+                }
+
+                // Treat it as start of a word & fall through to readWord below
+                this.accept(lookahead.value);
+            }
+
+            // It's a letter or leading punct
+            yield* this.readWord();
+        }
+
+        // Anything left in the outgoing buffer
+        if (this.outgoing.length > 0) {
+            yield this.token();
+        }
+    };
+
+    private accept(rune: string) {
+        this.outgoing.push(rune);
+    }
+
+    private token(): Token {
         const val = this.outgoing.join('');
         this.outgoing.length = 0;   // clear it
 
         return new Token(val, val.isPunct(), val.isSpace());
     }
 
-    accept(rune: string) {
-        this.outgoing.push(rune);
-    }
-
-    *readWord() {
+    private *readWord() {
         while (true) {
             const next = this.incoming.next();
 
@@ -90,67 +154,4 @@ export class Tokens {
             this.accept(rune);
         }
     }
-
-    *[Symbol.iterator](): IterableIterator<Token> {
-        while (true) {
-            const next = this.incoming.next();
-
-            if (next.done) {
-                break;
-            }
-
-            const rune = next.value;
-            if (typeof rune !== 'string') { throw `${rune} is not a string`; }
-            if (!rune.isRune()) { throw `${rune} is not a single unicode character`; }
-
-            this.accept(rune);
-
-            if (rune.isSpace()) {
-                yield this.token();
-                continue;
-            }
-
-            if (rune.isPunct()) {
-                if (!rune.mightBeLeadingPunct()) {
-                    // Regular punct, emit it
-                    yield this.token();
-                    continue;
-                }
-
-                // Might be leading punct, like .Net, let's figure it out
-
-                // Lookahead to see if followed by a letter
-                // Remember, once we've looked ahead, we need to do something with that value, can't rewind
-                const lookahead = this.incoming.next();
-
-                if (lookahead.done) {
-                    // Regular punct, emit it
-                    yield this.token();
-                    continue;
-                }
-
-                if (lookahead.value.isPunct() || lookahead.value.isSpace()) {
-                    // Rune is a terminator, emit it
-                    yield this.token();
-
-                    // Emit the lookahead value
-                    this.accept(lookahead.value);
-                    yield this.token();
-
-                    continue;
-                }
-
-                // Treat it as start of a word & fall through to readWord below
-                this.accept(lookahead.value);
-            }
-
-            // It's a letter or leading punct
-            yield* this.readWord();
-        }
-
-        // Anything left in the outgoing buffer
-        if (this.outgoing.length > 0) {
-            yield this.token();
-        }
-    };
 }
