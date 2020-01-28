@@ -107,7 +107,7 @@ export class Tokens {
                     this.accept(rune);
                     yield this.token();
 
-                    // There's no peeked rune to worry about
+                    // There's no lookahead rune to worry about
 
                     // We're done with this word, delegate back to main iterator
                     return;
@@ -121,7 +121,7 @@ export class Tokens {
                     this.accept(rune);
                     yield this.token();
 
-                    // Accept the peeked rune and emit
+                    // Accept the lookahead rune and emit
                     this.accept(lookahead.value);
                     yield this.token();
 
@@ -132,7 +132,7 @@ export class Tokens {
                 // Rune is mid-word punct, accept it like a letter
                 this.accept(rune);
 
-                // Accept the peeked rune (also a letter)
+                // Accept the lookahead rune (also a letter)
                 this.accept(lookahead.value);
 
                 continue;
