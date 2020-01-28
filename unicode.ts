@@ -2,8 +2,8 @@ export { }; // needs to be a module to declare global
 
 declare global {
     interface String {
-        in(map: runeMap): boolean;
         isRune(): boolean;
+        in(map: runeMap): boolean;
         isPunct(): boolean;
         isSpace(): boolean;
         mightBeLeadingPunct(): boolean;
@@ -11,17 +11,18 @@ declare global {
     }
 }
 
-// Rune is defined in the Go sense: one Unicode 'character' (up to 4 bytes)
-// We can't enforce it statically via types, but can provide hints via naming
+// Rune is one Unicode 'character' (2 bytes? 4 bytes?)
+// We can't enforce it statically via types, but can provide hints via naming and tests
 type rune = string;
-export type runeMap = { [rune: string]: boolean; };
 
-String.prototype.in = function (this: rune, map: runeMap) {
-    return map.hasOwnProperty(this) && map[this] === true;
+/// Indicates whether a string represents a single Unicode 'character' or code point
+String.prototype.isRune = function (this: string) {
+    return [...this].length === 1;  // https://dev.to/coolgoose/quick-and-easy-way-of-counting-utf-8-characters-in-javascript-23ce
 };
 
-String.prototype.isRune = function (this: rune) {
-    return [...this].length === 1;  // https://dev.to/coolgoose/quick-and-easy-way-of-counting-utf-8-characters-in-javascript-23ce
+type runeMap = { [rune: string]: boolean; };
+String.prototype.in = function (this: rune, map: runeMap) {
+    return map.hasOwnProperty(this) && map[this] === true;
 };
 
 // Unicode category P from https://stackoverflow.com/a/37668315
