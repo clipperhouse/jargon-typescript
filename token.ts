@@ -7,3 +7,7 @@ export class Token {
         readonly isLemma: boolean = false,
     ) { }
 }
+
+Token.prototype.toString = function (this: Token): string {
+    return `{${this.value.replace('\n', '\\n')}}`;
+};
