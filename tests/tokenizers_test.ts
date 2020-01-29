@@ -5,13 +5,13 @@ let successes = 0;
 let failures = 0;
 {
     const word = new Token("foo");
-    if (word.IsPunct) {
+    if (word.isPunct) {
         console.error(`token ${word} should not be punctuation`);
         failures++;
     } else {
         successes++;
     }
-    if (word.IsSpace) {
+    if (word.isSpace) {
         console.error(`token ${word} should not be space`);
         failures++;
     } else {
@@ -20,13 +20,13 @@ let failures = 0;
 }
 {
     const punct = new Token(",");
-    if (!punct.IsPunct) {
+    if (!punct.isPunct) {
         console.error(`token ${punct} should be punctuation`);
         failures++;
     } else {
         successes++;
     }
-    if (punct.IsSpace) {
+    if (punct.isSpace) {
         console.error(`token ${punct} should not be space`);
         failures++;
     } else {
@@ -35,13 +35,13 @@ let failures = 0;
 }
 {
     const space = new Token(" ");
-    if (!space.IsSpace) {
+    if (!space.isSpace) {
         console.error(`token ${space} should be space`);
         failures++;
     } else {
         successes++;
     }
-    if (space.IsPunct) {
+    if (space.isPunct) {
         console.error(`token ${space} should not be punct`);
         failures++;
     } else {
@@ -50,13 +50,13 @@ let failures = 0;
 }
 {
     const lf = new Token("\n");
-    if (!lf.IsSpace) {
+    if (!lf.isSpace) {
         console.error(`token ${lf} should be space`);
         failures++;
     } else {
         successes++;
     }
-    if (!lf.IsPunct) {
+    if (!lf.isPunct) {
         console.error(`token ${lf} should be punct`);
         failures++;
     } else {
@@ -75,8 +75,8 @@ let gotLookup: { [value: string]: boolean; } = {};
 let gotArray: string[] = [];
 
 for (const token of tokens) {
-    gotLookup[token.Value] = true;
-    gotArray.push(token.Value);
+    gotLookup[token.value] = true;
+    gotArray.push(token.value);
 }
 
 const expected = [
