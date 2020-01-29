@@ -40,8 +40,14 @@ const punctAsSymbol: runeMap = {
     '/': true,
     '\\': true,
 };
+
+const spaceAsPunct: runeMap = {
+    '\n': true,
+    '\r': true,
+    '\t': true,
+};
 String.prototype.isPunct = function (this: rune) {
-    return unicodeP.test(this) && !this.in(punctAsSymbol);
+    return (unicodeP.test(this) || this.in(spaceAsPunct)) && !this.in(punctAsSymbol);
 };
 
 const space = /^\s+$/;
