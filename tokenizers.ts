@@ -81,7 +81,7 @@ export class Tokens {
         const val = this.outgoing.join('');
         this.outgoing.length = 0;   // clear it
 
-        return new Token(val, val.isPunct(), val.isSpace());
+        return new Token(val);
     }
 
     private *readWord() {

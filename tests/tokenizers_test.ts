@@ -1,6 +1,70 @@
 import * as jargon from "../jargon";
+import { Token } from "../token";
 
-let text = `Hi! This is a test of tech terms. "😀"
+let successes = 0;
+let failures = 0;
+{
+    const word = new Token("foo");
+    if (word.IsPunct) {
+        console.error(`token ${word} should not be punctuation`);
+        failures++;
+    } else {
+        successes++;
+    }
+    if (word.IsSpace) {
+        console.error(`token ${word} should not be space`);
+        failures++;
+    } else {
+        successes++;
+    }
+}
+{
+    const punct = new Token(",");
+    if (!punct.IsPunct) {
+        console.error(`token ${punct} should be punctuation`);
+        failures++;
+    } else {
+        successes++;
+    }
+    if (punct.IsSpace) {
+        console.error(`token ${punct} should not be space`);
+        failures++;
+    } else {
+        successes++;
+    }
+}
+{
+    const space = new Token(" ");
+    if (!space.IsSpace) {
+        console.error(`token ${space} should be space`);
+        failures++;
+    } else {
+        successes++;
+    }
+    if (space.IsPunct) {
+        console.error(`token ${space} should not be punct`);
+        failures++;
+    } else {
+        successes++;
+    }
+}
+{
+    const lf = new Token("\n");
+    if (!lf.IsSpace) {
+        console.error(`token ${lf} should be space`);
+        failures++;
+    } else {
+        successes++;
+    }
+    if (!lf.IsPunct) {
+        console.error(`token ${lf} should be punct`);
+        failures++;
+    } else {
+        successes++;
+    }
+}
+
+const text = `Hi! This is a test of tech terms. "😀"
 It should consider F#, C++, .net, Node.JS and 3.141592 and -123 to be their own tokens. 
 Similarly, #hashtag and @handle should work, as should an first.last+@example.com.
 It should—wait for it—break on things like em-dashes and "quotes" and it ends.
@@ -22,9 +86,6 @@ const expected = [
     "should", "—", "wait", "it", "break", "em-dashes", "quotes", "ends",
     "It'd", "it’ll", "apostrophes",
 ];
-
-let successes = 0;
-let failures = 0;
 
 for (const e of expected) {
     const found = e.in(gotLookup);

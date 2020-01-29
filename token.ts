@@ -2,8 +2,8 @@
 export class Token {
     constructor(
         readonly Value: string,
-        readonly IsPunct: boolean = false,
-        readonly IsSpace: boolean = false,
+        readonly IsPunct: boolean = Value.isPunct(),
+        readonly IsSpace: boolean = Value.isSpace(),
         readonly IsLemma: boolean = false,
     ) { }
 }
