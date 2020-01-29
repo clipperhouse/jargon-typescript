@@ -1,5 +1,4 @@
-import { Tokens } from "../tokenizers";
-
+import * as jargon from "../jargon";
 
 let text = `Hi! This is a test of tech terms. "😀"
 It should consider F#, C++, .net, Node.JS and 3.141592 and -123 to be their own tokens. 
@@ -7,7 +6,7 @@ Similarly, #hashtag and @handle should work, as should an first.last+@example.co
 It should—wait for it—break on things like em-dashes and "quotes" and it ends.
 It'd be great it it’ll handle apostrophes.
 `;
-const tokens = new Tokens(text);
+const tokens = jargon.Tokenize(text);
 let gotLookup: { [value: string]: boolean; } = {};
 let gotArray: string[] = [];
 
