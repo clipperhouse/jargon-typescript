@@ -67,9 +67,9 @@ export class Tokens {
             yield* this.readWord();
         }
 
-        // Anything left in the outgoing buffer
+        // Anything left in the outgoing buffer is an error
         if (this.outgoing.length > 0) {
-            yield this.token();
+            throw "should be nothing left in the buffer, this is a bug";
         }
     };
 
