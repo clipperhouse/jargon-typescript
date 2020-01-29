@@ -89,6 +89,7 @@ export class Tokens {
             const next = this.incoming.next();
 
             if (next.done) {
+                // Emit the buffered word and return to main iterator
                 yield this.token();
                 return;
             }
@@ -96,7 +97,7 @@ export class Tokens {
             const rune = next.value;
 
             if (rune.mightBeMidPunct()) {
-                // Lookahead to see if it's followed by a terminator (i.e., non-letter)
+                // Lookahead to see if current rune is followed by a terminator or EOF
                 const lookahead = this.incoming.next();
 
                 if (lookahead.done) {
@@ -114,6 +115,8 @@ export class Tokens {
                 }
 
                 if (lookahead.value.isPunct() || lookahead.value.isSpace()) {
+                    // Lookahead is a word terminator, implying that current rune is regular punct
+
                     // Rune is regular trailing punct, emit the buffered word
                     yield this.token();
 
@@ -129,17 +132,19 @@ export class Tokens {
                     return;
                 }
 
-                // Rune is mid-word punct, accept it like a letter
+                // Rune is mid-word punct, accept it as a word character
                 this.accept(rune);
 
-                // Accept the lookahead rune (also a letter)
+                // The lookahead rune is also a word character, accept and continue
                 this.accept(lookahead.value);
 
                 continue;
             }
 
             if (rune.isPunct() || rune.isSpace()) {
-                // Emit the current word token without the punct
+                // Rune is a word terminator
+
+                // Emit the buffered word without the punct
                 yield this.token();
 
                 // Emit the punct
@@ -150,7 +155,7 @@ export class Tokens {
                 return;
             }
 
-            // Otherwise it's a letter, keep going
+            // Otherwise it's a word character, keep going
             this.accept(rune);
         }
     }
