@@ -22,6 +22,15 @@ export class Tokens {
             if (typeof rune !== 'string') { throw `${rune} is not a string`; }
             if (!rune.isRune()) { throw `${rune} is not a single unicode character`; }
 
+            // Optimization: reuse the same Token for common runes
+            const cached = common.get(rune);
+            if (cached) {
+                yield cached;
+
+                // Discard rune
+                continue;
+            }
+
             this.accept(rune);
 
             if (rune.isSpace()) {
@@ -160,3 +169,24 @@ export class Tokens {
         }
     }
 }
+
+type tokenSet = { [rune: string]: Token; };
+type tokenCache = { tokens: tokenSet, get: (rune: string) => Token | null; };
+
+const common: tokenCache = {
+    tokens: {
+        ' ': new Token(' '),
+        '\r': new Token('\r'),
+        '\n': new Token('\n'),
+        '\t': new Token('\t'),
+        '.': new Token('.'),
+        ',': new Token(','),
+    },
+
+    get: function (rune: string) {
+        if (this.tokens.hasOwnProperty(rune)) {
+            return this.tokens[rune];
+        }
+        return null;
+    }
+};
