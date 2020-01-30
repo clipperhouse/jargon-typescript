@@ -20,16 +20,7 @@ export class Tokens {
 
             const rune = next.value;
             if (typeof rune !== 'string') { throw `${rune} is not a string`; }
-            if (!rune.isRune()) { throw `${rune} is not a single unicode character`; }
-
-            // Optimization: reuse the same Token for common runes
-            const cached = common.get(rune);
-            if (cached) {
-                yield cached;
-
-                // Discard rune
-                continue;
-            }
+            if (!rune.isRune()) { throw `${rune} is not a single unicode character (aka rune)`; }
 
             this.accept(rune);
 
@@ -87,6 +78,18 @@ export class Tokens {
     }
 
     private token(): Token {
+        // Optimization: reuse the same Token for common runes
+        //  Primarily a memory (GC) optimization, avoids new'ing up Tokens
+        //  Might or might not be a speed improvement
+        if (this.outgoing.length === 1) {
+            const rune = this.outgoing[0];
+            const cached = common.get(rune);
+            if (cached) {
+                this.outgoing.length = 0;
+                return cached;
+            }
+        }
+
         const val = this.outgoing.join('');
         this.outgoing.length = 0;   // clear it
 
