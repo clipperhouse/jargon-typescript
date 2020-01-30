@@ -131,4 +131,7 @@ for (const value of gotArray) {
     }
 }
 
-console.log(`${successes} successes and ${failures} failures`);
+const out = failures > 0 ? console.error : console.log;
+
+out(`${successes} successes and ${failures} failures`);
+
