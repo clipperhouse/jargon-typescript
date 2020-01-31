@@ -1,11 +1,16 @@
 {
   "name": "jargon-typescript",
   "version": "0.0.1",
-  "description": "A lemmatizer",
-  "main": "",
+  "description": "Tokenizers and lemmatizers",
+  "main": "jargon.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tests/tokenizers_test.js"
   },
-  "author": "Matt Sherman",
-  "license": "ISC"
+  "author": "Matt Sherman <mwsherman@gmail.com> (https://clipperhouse.com/about/)",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clipperhouse/jargon-typescript.git"
+  },
+  "homepage": "https://github.com/clipperhouse/jargon-typescript#readme"
 }
