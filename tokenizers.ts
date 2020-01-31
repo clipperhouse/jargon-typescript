@@ -173,8 +173,10 @@ export class Tokens {
     }
 }
 
-type tokenSet = { [rune: string]: Token; };
-type tokenCache = { tokens: tokenSet, get: (rune: string) => Token | null; };
+type tokenCache = {
+    tokens: { [rune: string]: Token; },
+    get: (rune: string) => Token | null,
+};
 
 const common: tokenCache = {
     tokens: {
