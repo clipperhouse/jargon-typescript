@@ -6,8 +6,12 @@ export class Token {
         readonly isSpace: boolean = value.isSpace(),
         readonly isLemma: boolean = false,
     ) { }
-}
-
-Token.prototype.toString = function (this: Token): string {
-    return `{${this.value.replace('\n', '\\n')}}`;
+    toString(this: Token): string {
+        const val = this.value.replace('\n', '\\n');
+        const isPunct = this.isPunct ? 'isPunct' : '';
+        const isSpace = this.isSpace ? 'isSpace' : '';
+        const isLemma = this.isLemma ? 'isLemma' : '';
+        const out = [val, isPunct, isSpace, isLemma].join(',');
+        return `{${out}}`;
+    };
 };
