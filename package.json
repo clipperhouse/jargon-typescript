@@ -12,5 +12,11 @@
     "type": "git",
     "url": "https://github.com/clipperhouse/jargon-typescript.git"
   },
-  "homepage": "https://github.com/clipperhouse/jargon-typescript#readme"
+  "homepage": "https://github.com/clipperhouse/jargon-typescript#readme",
+  "devDependencies": {
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
 }
