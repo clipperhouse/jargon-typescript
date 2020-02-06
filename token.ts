@@ -7,11 +7,14 @@ export class Token {
         readonly isLemma: boolean = false,
     ) { }
     toString(this: Token): string {
-        const val = this.value.replace('\n', '\\n');
-        const isPunct = this.isPunct ? 'isPunct' : '';
-        const isSpace = this.isSpace ? 'isSpace' : '';
-        const isLemma = this.isLemma ? 'isLemma' : '';
-        const out = [val, isPunct, isSpace, isLemma].join(',');
-        return `{${out}}`;
+        let out = new Array<string>();
+
+        const val = `'${this.value.replace('\n', '\\n')}'`;
+        out.push(val);
+
+        this.isPunct && out.push('isPunct');
+        this.isSpace && out.push('isSpace');
+        this.isLemma && out.push('isLemma');
+        return `{${out.join(',')}}`;
     };
 };
