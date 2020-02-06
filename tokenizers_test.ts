@@ -1,5 +1,5 @@
-import * as jargon from "../jargon";
-import { Token } from "../token";
+import * as jargon from "./jargon";
+import { Token } from "./token";
 
 let successes = 0;
 let failures = 0;
