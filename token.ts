@@ -9,7 +9,7 @@ export class Token {
     toString(this: Token): string {
         let out = new Array<string>();
 
-        const val = `'${this.value.replace('\n', '\\n')}'`;
+        const val = `'${this.value.replace('\n', '\\n').replace('\r', '\\r').replace('\t', '\\t')}'`;
         out.push(val);
 
         this.isPunct && out.push('isPunct');
