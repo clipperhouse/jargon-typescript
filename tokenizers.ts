@@ -1,7 +1,7 @@
 import { Token } from "./token";
 import "./unicode";
 
-export class Tokens {
+export class Tokens implements Iterable<Token> {
     private readonly incoming: IterableIterator<string>;
     private readonly outgoing: Array<string>;
     constructor(input: string) {
