@@ -1,5 +1,5 @@
 import { Token } from "./token";
-import { Tokens } from "./tokenizers";
+import { Tokens } from "./tokenizer";
 import { LemmaTokens } from "./lemmatizer";
 
 export function Tokenize(input: string) {
