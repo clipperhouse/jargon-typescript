@@ -9,3 +9,5 @@ export function Tokenize(input: string) {
 export function Lemmatize(tokens: Iterable<Token>) {
     return new LemmaTokens(tokens);
 }
+
+export { Token };

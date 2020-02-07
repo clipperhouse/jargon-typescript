@@ -1,4 +1,4 @@
-import * as jargon from "./jargon";
+import * as jargon from "../jargon";
 
 let successes = 0;
 let failures = 0;

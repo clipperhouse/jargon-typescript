@@ -1,10 +1,9 @@
-import * as jargon from "./jargon";
-import { Token } from "./token";
+import * as jargon from "../jargon";
 
 let successes = 0;
 let failures = 0;
 {
-    const word = new Token("foo");
+    const word = new jargon.Token("foo");
     if (word.isPunct) {
         console.error(`token ${word} should not be punctuation`);
         failures++;
@@ -19,7 +18,7 @@ let failures = 0;
     }
 }
 {
-    const punct = new Token(",");
+    const punct = new jargon.Token(",");
     if (!punct.isPunct) {
         console.error(`token ${punct} should be punctuation`);
         failures++;
@@ -34,7 +33,7 @@ let failures = 0;
     }
 }
 {
-    const space = new Token(" ");
+    const space = new jargon.Token(" ");
     if (!space.isSpace) {
         console.error(`token ${space} should be space`);
         failures++;
@@ -49,7 +48,7 @@ let failures = 0;
     }
 }
 {
-    const lf = new Token("\n");
+    const lf = new jargon.Token("\n");
     if (!lf.isSpace) {
         console.error(`token ${lf} should be space`);
         failures++;
