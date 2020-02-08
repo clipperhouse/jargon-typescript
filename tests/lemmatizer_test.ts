@@ -16,8 +16,8 @@ for (const lemma of lemmas) {
 	gotLookup[lemma.value] = lemma;
 }
 
-type expected = { value: string, isLemma: boolean; };
-const expected = [
+type test = { value: string, isLemma: boolean; };
+const expecteds: Array<test> = [
 	{ value: 'ruby-on-rails', isLemma: true },
 	{ value: 'asp.net', isLemma: true },
 	{ value: 'reactjs', isLemma: true },
@@ -27,15 +27,15 @@ const expected = [
 	{ value: '❤️', isLemma: false },
 ];
 
-for (const e of expected) {
-	const found = gotLookup[e.value];
+for (const expected of expecteds) {
+	const found = gotLookup[expected.value];
 	if (!found) {
-		console.error(`expected to find ${e.value}, but did not`);
+		console.error(`expected to find ${expected.value}, but did not`);
 		failures++;
 		continue;
 	}
-	if (found.isLemma !== e.isLemma) {
-		console.error(`found ${e.value}, expected isLemma to be ${e.isLemma}, but it's ${found.isLemma}`);
+	if (found.isLemma !== expected.isLemma) {
+		console.error(`found ${expected.value}, expected isLemma to be ${expected.isLemma}, but it's ${found.isLemma}`);
 		failures++;
 		continue;
 	}
