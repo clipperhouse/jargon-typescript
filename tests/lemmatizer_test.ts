@@ -3,12 +3,15 @@ import * as jargon from "../jargon";
 class RandomDictionary implements jargon.Dictionary {
     Lookup(input: string[]): string | null {
         const rand = Math.random();
-        if (rand < .2) {   // 20%
+        if (rand < .1) {   // 10%
             return `${input.join('-')}-random`;
         }
         return null;
     }
+    maxGramLength = 3;
 }
+
+console.clear();
 
 let successes = 0;
 let failures = 0;
