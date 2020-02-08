@@ -1,9 +1,5 @@
 import { Token } from "./token";
-
-export interface Dictionary {
-	Lookup(input: string[]): string | null,
-	maxGramLength: number,
-}
+import { Dictionary } from "./dictionary";
 
 export class Lemmatizer {
 	constructor(private readonly dictionary: Dictionary) { };
