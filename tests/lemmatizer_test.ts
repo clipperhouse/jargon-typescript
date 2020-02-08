@@ -1,8 +1,6 @@
 import * as jargon from "../jargon";
 import * as stackexchange from "../stackexchange/dictionary";
-
-let successes = 0;
-let failures = 0;
+import * as test from "./test";
 
 const text = 'I ❤️ Rails -- and aspNET and react js and node-js. and C++ and tcp/IP';
 
@@ -30,19 +28,15 @@ const expecteds: Array<test> = [
 for (const expected of expecteds) {
 	const found = gotLookup[expected.value];
 	if (!found) {
-		console.error(`expected to find ${expected.value}, but did not`);
-		failures++;
+		test.failure(`expected to find ${expected.value}, but did not`);
 		continue;
 	}
 	if (found.isLemma !== expected.isLemma) {
-		console.error(`found ${expected.value}, expected isLemma to be ${expected.isLemma}, but it's ${found.isLemma}`);
-		failures++;
+		test.failure(`found ${expected.value}, expected isLemma to be ${expected.isLemma}, but it's ${found.isLemma}`);
 		continue;
 	}
-	successes++;
+	test.success();
 }
 
-const out = failures > 0 ? console.error : console.log;
-
-out(`${successes} successes and ${failures} failures`);
+test.report();
 
