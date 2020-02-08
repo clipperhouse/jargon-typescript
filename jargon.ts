@@ -1,13 +1,11 @@
 import { Token } from "./token";
 import { Tokens } from "./tokenizer";
-import { LemmaTokens } from "./lemmatizer";
+import { Lemmatizer, Dictionary } from "./lemmatizer";
 
 export function Tokenize(input: string) {
     return new Tokens(input);
 }
 
-export function Lemmatize(tokens: Iterable<Token>) {
-    return new LemmaTokens(tokens);
-}
-
 export { Token };
+
+export { Lemmatizer, Dictionary };

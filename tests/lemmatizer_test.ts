@@ -1,12 +1,24 @@
 import * as jargon from "../jargon";
 
+class RandomDictionary implements jargon.Dictionary {
+    Lookup(input: string[]): string | null {
+        const rand = Math.random();
+        if (rand < .2) {   // 20%
+            return `${input.join('-')}-random`;
+        }
+        return null;
+    }
+}
+
 let successes = 0;
 let failures = 0;
 
 const text = 'Thou art a knave, a beggar, an eater of broken meats!';
 
 const tokens = jargon.Tokenize(text);
-const lemmas = jargon.Lemmatize(tokens);
+const dict = new RandomDictionary();
+const lem = new jargon.Lemmatizer(dict);
+const lemmas = lem.Lemmatize(tokens);
 
 for (const lemma of lemmas) {
     console.log(`${lemma}`);
