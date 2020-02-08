@@ -36,7 +36,7 @@ function tryGet(key: string, set: tagSet): string | null {
 	return null;
 }
 
-const remove = /[.-\\]/g;
+const remove = /[.\-\/]/g;
 function normalize(s: string): string {
 	return s.replace(remove, '').toLowerCase();
 };
