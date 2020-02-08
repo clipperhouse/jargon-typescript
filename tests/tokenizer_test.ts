@@ -1,5 +1,7 @@
 import * as jargon from "../jargon";
-import * as test from "./test";
+import { testrun } from "./testrun";
+
+const test = new testrun('tokenizer');
 
 {
 	const word = new jargon.Token("foo");

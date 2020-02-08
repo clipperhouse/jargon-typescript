@@ -1,6 +1,8 @@
 import * as jargon from "../jargon";
 import * as stackexchange from "../stackexchange/dictionary";
-import * as test from "./test";
+import { testrun } from "./testrun";
+
+const test = new testrun('lemmatizer');
 
 const text = 'I ❤️ Rails -- and aspNET and react js and node-js. and C++ and tcp/IP';
 
