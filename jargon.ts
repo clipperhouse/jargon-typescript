@@ -3,7 +3,7 @@ import { Tokens } from "./tokenizer";
 import { Lemmatizer, Dictionary } from "./lemmatizer";
 
 export function Tokenize(input: string) {
-    return new Tokens(input);
+	return new Tokens(input);
 }
 
 export { Token };

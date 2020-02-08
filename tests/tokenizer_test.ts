@@ -3,64 +3,64 @@ import * as jargon from "../jargon";
 let successes = 0;
 let failures = 0;
 {
-    const word = new jargon.Token("foo");
-    if (word.isPunct) {
-        console.error(`token ${word} should not be punctuation`);
-        failures++;
-    } else {
-        successes++;
-    }
-    if (word.isSpace) {
-        console.error(`token ${word} should not be space`);
-        failures++;
-    } else {
-        successes++;
-    }
+	const word = new jargon.Token("foo");
+	if (word.isPunct) {
+		console.error(`token ${word} should not be punctuation`);
+		failures++;
+	} else {
+		successes++;
+	}
+	if (word.isSpace) {
+		console.error(`token ${word} should not be space`);
+		failures++;
+	} else {
+		successes++;
+	}
 }
 {
-    const punct = new jargon.Token(",");
-    if (!punct.isPunct) {
-        console.error(`token ${punct} should be punctuation`);
-        failures++;
-    } else {
-        successes++;
-    }
-    if (punct.isSpace) {
-        console.error(`token ${punct} should not be space`);
-        failures++;
-    } else {
-        successes++;
-    }
+	const punct = new jargon.Token(",");
+	if (!punct.isPunct) {
+		console.error(`token ${punct} should be punctuation`);
+		failures++;
+	} else {
+		successes++;
+	}
+	if (punct.isSpace) {
+		console.error(`token ${punct} should not be space`);
+		failures++;
+	} else {
+		successes++;
+	}
 }
 {
-    const space = new jargon.Token(" ");
-    if (!space.isSpace) {
-        console.error(`token ${space} should be space`);
-        failures++;
-    } else {
-        successes++;
-    }
-    if (space.isPunct) {
-        console.error(`token ${space} should not be punct`);
-        failures++;
-    } else {
-        successes++;
-    }
+	const space = new jargon.Token(" ");
+	if (!space.isSpace) {
+		console.error(`token ${space} should be space`);
+		failures++;
+	} else {
+		successes++;
+	}
+	if (space.isPunct) {
+		console.error(`token ${space} should not be punct`);
+		failures++;
+	} else {
+		successes++;
+	}
 }
 {
-    const lf = new jargon.Token("\n");
-    if (!lf.isSpace) {
-        console.error(`token ${lf} should be space`);
-        failures++;
-    } else {
-        successes++;
-    }
-    if (!lf.isPunct) {
-        console.error(`token ${lf} should be punct`);
-        failures++;
-    } else {
-        successes++;
-    }
+	const lf = new jargon.Token("\n");
+	if (!lf.isSpace) {
+		console.error(`token ${lf} should be space`);
+		failures++;
+	} else {
+		successes++;
+	}
+	if (!lf.isPunct) {
+		console.error(`token ${lf} should be punct`);
+		failures++;
+	} else {
+		successes++;
+	}
 }
 
 const text = `Hi! This is a test of tech terms. "😀"
@@ -74,60 +74,60 @@ let gotLookup: { [value: string]: boolean; } = {};
 let gotArray: string[] = [];
 
 for (const token of tokens) {
-    gotLookup[token.value] = true;
-    gotArray.push(token.value);
+	gotLookup[token.value] = true;
+	gotArray.push(token.value);
 }
 
 const expected = [
-    "Hi", "!", "a", '"', "😀",
-    "F#", "C++", ".net", "Node.JS", "3.141592", "-123",
-    "#hashtag", "@handle", "first.last+@example.com",
-    "should", "—", "wait", "it", "break", "em-dashes", "quotes", "ends",
-    "It'd", "it’ll", "apostrophes",
+	"Hi", "!", "a", '"', "😀",
+	"F#", "C++", ".net", "Node.JS", "3.141592", "-123",
+	"#hashtag", "@handle", "first.last+@example.com",
+	"should", "—", "wait", "it", "break", "em-dashes", "quotes", "ends",
+	"It'd", "it’ll", "apostrophes",
 ];
 
 for (const e of expected) {
-    const found = e.in(gotLookup);
-    if (!found) {
-        console.error(`expected to find token ${e}, but did not.`);
-        failures++;
-        continue;
-    }
-    successes++;
+	const found = e.in(gotLookup);
+	if (!found) {
+		console.error(`expected to find token ${e}, but did not.`);
+		failures++;
+		continue;
+	}
+	successes++;
 }
 
 // Check that last .
 let nextToLast = gotArray[gotArray.length - 2];
 
 if (nextToLast != ".") {
-    console.error(`next-to-last token should be ., got ${nextToLast}`);
-    failures++;
+	console.error(`next-to-last token should be ., got ${nextToLast}`);
+	failures++;
 } else {
-    successes++;
+	successes++;
 }
 
 // Check that last \n
 let last = gotArray[gotArray.length - 1];
 if (last != "\n") {
-    console.error(`last token should be \\n, got ${last}`);
-    failures++;
+	console.error(`last token should be \\n, got ${last}`);
+	failures++;
 } else {
-    successes++;
+	successes++;
 }
 
 // No trailing punctuation
 for (const value of gotArray) {
-    if (value.isRune()) {
-        // Skip actual (not trailing) punctuation
-        continue;
-    }
+	if (value.isRune()) {
+		// Skip actual (not trailing) punctuation
+		continue;
+	}
 
-    if (value.endsWith('.') || value.endsWith(',')) {
-        console.error(`found trailing punctuation in ${value}`);
-        failures++;
-    } else {
-        successes++;
-    }
+	if (value.endsWith('.') || value.endsWith(',')) {
+		console.error(`found trailing punctuation in ${value}`);
+		failures++;
+	} else {
+		successes++;
+	}
 }
 
 const out = failures > 0 ? console.error : console.log;

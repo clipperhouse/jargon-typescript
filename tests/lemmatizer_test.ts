@@ -1,14 +1,14 @@
 import * as jargon from "../jargon";
 
 class RandomDictionary implements jargon.Dictionary {
-    Lookup(input: string[]): string | null {
-        const rand = Math.random();
-        if (rand < .1) {   // 10%
-            return `${input.join('-')}-random`;
-        }
-        return null;
-    }
-    maxGramLength = 3;
+	Lookup(input: string[]): string | null {
+		const rand = Math.random();
+		if (rand < .1) {   // 10%
+			return `${input.join('-')}-random`;
+		}
+		return null;
+	}
+	maxGramLength = 3;
 }
 
 let successes = 0;
@@ -22,7 +22,7 @@ const lem = new jargon.Lemmatizer(dict);
 const lemmas = lem.Lemmatize(tokens);
 
 for (const lemma of lemmas) {
-    console.log(`${lemma}`);
+	console.log(`${lemma}`);
 }
 
 const out = failures > 0 ? console.error : console.log;
