@@ -11,8 +11,6 @@ class RandomDictionary implements jargon.Dictionary {
     maxGramLength = 3;
 }
 
-console.clear();
-
 let successes = 0;
 let failures = 0;
 
