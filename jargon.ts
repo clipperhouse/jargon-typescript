@@ -1,6 +1,7 @@
 import { Token } from "./token";
 import { Tokens } from "./tokenizer";
-import { Lemmatizer, Dictionary } from "./lemmatizer";
+import { Lemmatizer } from "./lemmatizer";
+import { Dictionary } from "./dictionary";
 
 export function Tokenize(input: string) {
 	return new Tokens(input);
