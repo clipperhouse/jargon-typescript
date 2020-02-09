@@ -1,6 +1,6 @@
 {
 	"name": "@clipperhouse/jargon",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "A tokenizer and lemmatizer for canonical terms in text",
 	"main": "jargon.js",
 	"types": "jargon.d.ts",
@@ -8,7 +8,7 @@
 		"test": "node tests/all.js"
 	},
 	"author": "Matt Sherman <mwsherman@gmail.com> (https://clipperhouse.com/about/)",
-	"license": "ISC",
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/clipperhouse/jargon-typescript.git"
