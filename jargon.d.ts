@@ -1,14 +1,8 @@
-/// <reference lib="ES2015" />
-
+/// <reference lib="es2015" />
 import { Token } from "./token";
 import { Tokens } from "./tokenizer";
 import { Lemmatizer } from "./lemmatizer";
 import { Dictionary } from "./dictionary";
-
-export function Tokenize(input: string) {
-	return new Tokens(input);
-}
-
+export declare function Tokenize(input: string): Tokens;
 export { Token };
-
 export { Lemmatizer, Dictionary };
