@@ -73,6 +73,14 @@ export class Tokens implements Iterable<Token> {
 		}
 	};
 
+	public toArray(): Array<Token> {
+		let result = new Array<Token>();
+		for (const token of this) {
+			result.push(token);
+		}
+		return result;
+	}
+
 	private accept(rune: string) {
 		this.outgoing.push(rune);
 	}

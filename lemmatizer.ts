@@ -1,11 +1,22 @@
 import { Token } from "./token";
 import { Dictionary } from "./dictionary";
+import { Tokens } from "./tokenizer";
+import { Tokenize } from "./jargon";
 
 export class Lemmatizer {
 	constructor(private readonly dictionary: Dictionary) { };
 
-	Lemmatize(incoming: Iterable<Token>): LemmaTokens {
-		return new LemmaTokens(this.dictionary, incoming);
+	Lemmatize(input: Iterable<Token> | string): LemmaTokens {
+		if (typeof input === 'string') {
+			// Easy mistake to make given the API; handle it
+			input = Tokenize(input);
+		}
+
+		if (input instanceof Tokens) {
+			return new LemmaTokens(this.dictionary, input);
+		}
+
+		throw `input needs to be an Iterable<Token> or a string. You probably need to Tokenize() first and pass that result into Lemmatize().`;
 	};
 }
 
@@ -38,7 +49,15 @@ class LemmaTokens implements Iterable<Token> {
 		}
 	}
 
-	*ngrams() {
+	public toArray(): Array<Token> {
+		let result = new Array<Token>();
+		for (const token of this) {
+			result.push(token);
+		}
+		return result;
+	}
+
+	private *ngrams() {
 		// Try n-grams, longest to shortest (greedy)
 		for (let take = this.dictionary.maxGramLength; take > 0; take--) {
 			const { taken, count, success } = this.wordrun(take);
@@ -67,7 +86,7 @@ class LemmaTokens implements Iterable<Token> {
 		throw "did not find a token. this should never happen";
 	}
 
-	wordrun(take: number): { taken: Array<string>, count: number, success: boolean; } {
+	private wordrun(take: number): { taken: Array<string>, count: number, success: boolean; } {
 		const nothing = { taken: [], count: 0, success: false };
 
 		let taken = new Array<string>();
@@ -103,12 +122,11 @@ class LemmaTokens implements Iterable<Token> {
 
 		return { taken, count, success: true };
 	}
-
-	drop(n: number) {
+	private drop(n: number) {
 		this.buffer.splice(0, n);
 	}
 
-	fill(count: number): boolean {
+	private fill(count: number): boolean {
 		while (count >= this.buffer.length) {
 			const next = this.iterator.next();
 			if (next.done) {

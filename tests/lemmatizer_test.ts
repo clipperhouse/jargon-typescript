@@ -37,5 +37,21 @@ for (const expected of expecteds) {
 	test.assert(found.isLemma === expected.isLemma, `found ${expected.value}, expected isLemma to be ${expected.isLemma}, but it's ${found.isLemma}`);
 }
 
+{
+	// Ensure that Lemmatize handles input of tokens or string
+	const lemmasByString = lem.Lemmatize(text).toArray();
+	const tokens = jargon.Tokenize(text);
+	const lemmasByToken = lem.Lemmatize(tokens).toArray();
+
+	test.assert(lemmasByString.length === lemmasByToken.length, `lemmasByString has ${lemmasByString.length} elements, lemmasByToken has ${lemmasByToken.length} elements`);
+
+	for (let i = 0; i < lemmasByString.length; i++) {
+		const byString = lemmasByString[i];
+		const byToken = lemmasByToken[i];
+		test.assert(byString.equals(byToken), `${byString} != ${byToken}`);
+	}
+}
+
+
 test.report();
 

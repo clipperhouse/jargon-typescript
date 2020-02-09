@@ -13,6 +13,13 @@ export class Token {
 		return new Token(token.value, isLemma || token.isLemma);
 	}
 
+	equals(token: Token) {
+		return token.value === this.value &&
+			token.isPunct === this.isPunct &&
+			token.isSpace === this.isSpace &&
+			token.isLemma === this.isLemma;
+	}
+
 	toString(this: Token): string {
 		let out = new Array<string>();
 

@@ -27,15 +27,15 @@ It should—wait for it—break on things like em-dashes and "quotes" and it end
 It'd be great it it’ll handle apostrophes.
 `;
 const tokens = jargon.Tokenize(text);
-let gotLookup: { [value: string]: boolean; } = {};
-let gotArray: string[] = [];
 
-for (const token of tokens) {
-	gotLookup[token.value] = true;
-	gotArray.push(token.value);
+let got = tokens.toArray();
+
+let gotMap: { [value: string]: boolean; } = {};
+for (const token of got) {
+	gotMap[token.value] = true;
 }
 
-const expected = [
+const expecteds = [
 	"Hi", "!", "a", '"', "😀",
 	"F#", "C++", ".net", "Node.JS", "3.141592", "-123",
 	"#hashtag", "@handle", "first.last+@example.com",
@@ -43,27 +43,27 @@ const expected = [
 	"It'd", "it’ll", "apostrophes",
 ];
 
-for (const e of expected) {
-	test.assert(e.in(gotLookup), `expected to find token ${e}`);
+for (const expected of expecteds) {
+	test.assert(expected.in(gotMap), `expected to find token ${expected}`);
 }
 
 // Check that last .
-let nextToLast = gotArray[gotArray.length - 2];
-test.assert(nextToLast === ".", `next-to-last token should be ., got ${nextToLast}`);
+let nextToLast = got[got.length - 2];
+test.assert(nextToLast.value === ".", `next-to-last token should be ., got ${nextToLast}`);
 
 // Check that last \n
-let last = gotArray[gotArray.length - 1];
-test.assert(last === "\n", `last token should be \\n, got ${last}`);
+let last = got[got.length - 1];
+test.assert(last.value === "\n", `last token should be \\n, got ${last}`);
 
 // No trailing punctuation
-for (const value of gotArray) {
-	if (value.isRune()) {
+for (const token of got) {
+	if (token.value.isRune()) {
 		// Skip actual (not trailing) punctuation
 		continue;
 	}
 
-	const ok = !value.endsWith('.') && !value.endsWith(',');
-	test.assert(ok, `found trailing punctuation in ${value}`);
+	const ok = !token.value.endsWith('.') && !token.value.endsWith(',');
+	test.assert(ok, `found trailing punctuation in ${token}`);
 }
 
 test.report();
