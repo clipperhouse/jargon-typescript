@@ -1,15 +1,28 @@
 {
-  "name": "jargon-typescript",
-  "version": "0.0.1",
-  "description": "Tokenizers and lemmatizers",
-  "main": "jargon.js",
-  "scripts": {
-    "test": "node tests/tokenizers_test.js"
-  },
-  "author": "Matt Sherman <mwsherman@gmail.com> (https://clipperhouse.com/about/)",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/clipperhouse/jargon-typescript.git"
-  }
+	"name": "@clipperhouse/jargon",
+	"version": "0.0.1",
+	"description": "A tokenizer and lemmatizer for canonical terms in text",
+	"main": "jargon.js",
+	"scripts": {
+		"test": "node tests/all.js"
+	},
+	"author": "Matt Sherman <mwsherman@gmail.com> (https://clipperhouse.com/about/)",
+	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/clipperhouse/jargon-typescript.git"
+	},
+	"bugs": {
+		"url": "https://github.com/clipperhouse/jargon-typescript/issues"
+	},
+	"homepage": "https://github.com/clipperhouse/jargon-typescript#readme",
+	"directories": {
+		"test": "tests"
+	},
+	"keywords": [
+		"lemmatization",
+		"named entity recognition",
+		"tokenization",
+		"nlp"
+	]
 }
