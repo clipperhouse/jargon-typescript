@@ -29,15 +29,12 @@ const expecteds: Array<test> = [
 
 for (const expected of expecteds) {
 	const found = gotLookup[expected.value];
-	if (!found) {
-		test.failure(`expected to find ${expected.value}, but did not`);
-		continue;
-	}
-	if (found.isLemma !== expected.isLemma) {
-		test.failure(`found ${expected.value}, expected isLemma to be ${expected.isLemma}, but it's ${found.isLemma}`);
-		continue;
-	}
-	test.success();
+
+	const ok = found !== undefined;
+	test.assert(ok, `expected to find ${expected.value}`);
+	if (!found) continue;
+
+	test.assert(found.isLemma === expected.isLemma, `found ${expected.value}, expected isLemma to be ${expected.isLemma}, but it's ${found.isLemma}`);
 }
 
 test.report();

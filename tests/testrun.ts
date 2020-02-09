@@ -5,10 +5,19 @@ export class testrun {
 	constructor(private readonly name: string) {
 		console.log(`[${this.name}]\tbegin test run`);
 	}
-	success() {
+
+	assert(should: boolean, msg: string) {
+		if (should) {
+			this.success();
+		} else {
+			this.failure(msg);
+		}
+	}
+
+	private success() {
 		this.successes++;
 	}
-	failure(msg: string) {
+	private failure(msg: string) {
 		console.error(`[${this.name}]\t${msg}`);
 		this.failures++;
 	}

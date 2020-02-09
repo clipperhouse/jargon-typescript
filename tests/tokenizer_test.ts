@@ -3,59 +3,22 @@ import { testrun } from "./testrun";
 
 const test = new testrun('tokenizer');
 
-{
-	const word = new jargon.Token("foo");
-	if (word.isPunct) {
-		test.failure(`token ${word} should not be punctuation`);
-	} else {
-		test.success();
-	}
+const word = new jargon.Token("foo");
+test.assert(!word.isPunct, `token ${word} should not be punctuation`);
+test.assert(!word.isSpace, `token ${word} should not be space`);
 
-	if (word.isSpace) {
-		test.failure(`token ${word} should not be space`);
-	} else {
-		test.success();
-	}
-}
-{
-	const punct = new jargon.Token(",");
-	if (!punct.isPunct) {
-		test.failure(`token ${punct} should be punctuation`);
-	} else {
-		test.success();
-	}
-	if (punct.isSpace) {
-		test.failure(`token ${punct} should not be space`);
-	} else {
-		test.success();
-	}
-}
-{
-	const space = new jargon.Token(" ");
-	if (!space.isSpace) {
-		test.failure(`token ${space} should be space`);
-	} else {
-		test.success();
-	}
-	if (space.isPunct) {
-		test.failure(`token ${space} should not be punct`);
-	} else {
-		test.success();
-	}
-}
-{
-	const lf = new jargon.Token("\n");
-	if (!lf.isSpace) {
-		test.failure(`token ${lf} should be space`);
-	} else {
-		test.success();
-	}
-	if (!lf.isPunct) {
-		test.failure(`token ${lf} should be punct`);
-	} else {
-		test.success();
-	}
-}
+const punct = new jargon.Token(",");
+test.assert(punct.isPunct, `token ${punct} should be punctuation`);
+test.assert(!punct.isSpace, `token ${punct} should not be space`);
+
+const space = new jargon.Token(" ");
+test.assert(space.isSpace, `token ${space} should be space`);
+test.assert(!space.isPunct, `token ${space} should not be punct`);
+
+const lf = new jargon.Token("\n");
+test.assert(lf.isSpace, `token ${lf} should be space`);
+test.assert(lf.isPunct, `token ${lf} should be punct`);
+
 
 const text = `Hi! This is a test of tech terms. "😀"
 It should consider F#, C++, .net, Node.JS and 3.141592 and -123 to be their own tokens. 
@@ -81,30 +44,16 @@ const expected = [
 ];
 
 for (const e of expected) {
-	const found = e.in(gotLookup);
-	if (!found) {
-		test.failure(`expected to find token ${e}, but did not.`);
-		continue;
-	}
-	test.success();
+	test.assert(e.in(gotLookup), `expected to find token ${e}`);
 }
 
 // Check that last .
 let nextToLast = gotArray[gotArray.length - 2];
-
-if (nextToLast != ".") {
-	test.failure(`next-to-last token should be ., got ${nextToLast}`);
-} else {
-	test.success();
-}
+test.assert(nextToLast === ".", `next-to-last token should be ., got ${nextToLast}`);
 
 // Check that last \n
 let last = gotArray[gotArray.length - 1];
-if (last != "\n") {
-	test.failure(`last token should be \\n, got ${last}`);
-} else {
-	test.success();
-}
+test.assert(last === "\n", `last token should be \\n, got ${last}`);
 
 // No trailing punctuation
 for (const value of gotArray) {
@@ -113,11 +62,8 @@ for (const value of gotArray) {
 		continue;
 	}
 
-	if (value.endsWith('.') || value.endsWith(',')) {
-		test.failure(`found trailing punctuation in ${value}`);
-	} else {
-		test.success();
-	}
+	const ok = !value.endsWith('.') && !value.endsWith(',');
+	test.assert(ok, `found trailing punctuation in ${value}`);
 }
 
 test.report();
