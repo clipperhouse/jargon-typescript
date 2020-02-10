@@ -1,4 +1,4 @@
-import * as jargon from "../jargon";
+import jargon from "../jargon";
 import { testrun } from "./testrun";
 
 const test = new testrun('tokenizer');
