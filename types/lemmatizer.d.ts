@@ -8,6 +8,7 @@ declare class LemmaTokens implements Iterable<Token> {
     constructor(dictionary: Dictionary, incoming: Iterable<Token>);
     [Symbol.iterator](): IterableIterator<Token>;
     toArray(): Array<Token>;
+    toString(): string;
     private ngrams;
     private wordrun;
     private drop;

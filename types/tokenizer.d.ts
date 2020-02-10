@@ -7,6 +7,7 @@ export declare class Tokens implements Iterable<Token> {
     constructor(input: string);
     [Symbol.iterator](): IterableIterator<Token>;
     toArray(): Array<Token>;
+    toString(): string;
     private accept;
     private token;
     private readWord;

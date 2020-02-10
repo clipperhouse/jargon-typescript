@@ -78,11 +78,11 @@ export class Tokens implements Iterable<Token> {
 	};
 
 	public toArray(): Array<Token> {
-		let result = new Array<Token>();
-		for (const token of this) {
-			result.push(token);
-		}
-		return result;
+		return Array.from(this);
+	}
+
+	public toString() {
+		return Array.from(this).map(t => t.value).join('');
 	}
 
 	private accept(rune: string) {

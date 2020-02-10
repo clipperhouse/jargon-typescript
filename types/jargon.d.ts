@@ -8,3 +8,4 @@ declare const _default: {
     Lemmatize: typeof Lemmatize;
 };
 export default _default;
+export { Token, Tokenize, Lemmatize };
