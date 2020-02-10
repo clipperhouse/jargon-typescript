@@ -2,7 +2,8 @@
 	"name": "@clipperhouse/jargon",
 	"version": "0.0.8",
 	"description": "A tokenizer and lemmatizer for canonical terms in text",
-	"main": "jargon.js",
+	"main": "./jargon.js",
+	"types": "./types/jargon.d.ts",
 	"scripts": {
 		"test": "node tests/all.js"
 	},

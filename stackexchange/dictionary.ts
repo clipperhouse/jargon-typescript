@@ -32,6 +32,7 @@ class dict implements Dictionary {
 
 const Dictionary = new dict(tags, synonyms);
 
+export { Dictionary };
 export default { Dictionary };
 
 function tryGet(key: string, set: tagSet): string | null {
