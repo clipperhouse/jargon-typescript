@@ -1,24 +1,19 @@
-import { Token } from "./token";
 import { Dictionary } from "./dictionary";
-import { Tokens } from "./tokenizer";
-import { Tokenize } from "./jargon";
+import { Token } from "./token";
+import { Tokens, Tokenize } from "./tokenizer";
 
-export class Lemmatizer {
-	constructor(private readonly dictionary: Dictionary) { };
+export function Lemmatize(input: Iterable<Token> | string, dictionary: Dictionary): LemmaTokens {
+	if (typeof input === 'string') {
+		// Easy mistake to make given the API; handle it
+		input = Tokenize(input);
+	}
 
-	Lemmatize(input: Iterable<Token> | string): LemmaTokens {
-		if (typeof input === 'string') {
-			// Easy mistake to make given the API; handle it
-			input = Tokenize(input);
-		}
+	if (input instanceof Tokens) {
+		return new LemmaTokens(dictionary, input);
+	}
 
-		if (input instanceof Tokens) {
-			return new LemmaTokens(this.dictionary, input);
-		}
-
-		throw `input needs to be an Iterable<Token> or a string. You probably need to Tokenize() first and pass that result into Lemmatize().`;
-	};
-}
+	throw `input needs to be an Iterable<Token> or a string. You probably need to Tokenize() first and pass that result into Lemmatize().`;
+};
 
 class LemmaTokens implements Iterable<Token> {
 	private readonly buffer = new Array<Token>();

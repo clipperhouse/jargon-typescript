@@ -7,7 +7,7 @@ import { tagSet } from "./tagset";
 // e.g. Ruby on Rails (3 words) will be replaced with ruby-on-rails (1 word).
 // It includes the most popular 2530 tags and 2022 synonyms
 
-export const Dictionary = {
+const Dictionary = {
 	Lookup(input: string[]): string | null {
 		const gram = input.join('');
 		const key = normalize(gram);
@@ -28,6 +28,8 @@ export const Dictionary = {
 	tags: tags,
 	synonyms: synonyms,
 };
+
+export default { Dictionary };
 
 function tryGet(key: string, set: tagSet): string | null {
 	if (set.hasOwnProperty(key)) {

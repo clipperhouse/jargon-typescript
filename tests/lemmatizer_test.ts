@@ -1,16 +1,18 @@
-import * as jargon from "../jargon";
-import * as stackexchange from "../stackexchange/dictionary";
+import jargon from "../jargon";
+import stackexchange from "../stackexchange/dictionary";
+import { Token } from "../token";
 import { testrun } from "./testrun";
+
 
 const test = new testrun('lemmatizer');
 
 const text = 'I ❤️ Rails -- and aspNET and react js and node-js. and C++ and tcp/IP';
 
 const tokens = jargon.Tokenize(text);
-const lem = new jargon.Lemmatizer(stackexchange.Dictionary);
-const lemmas = lem.Lemmatize(tokens);
+const dict = stackexchange.Dictionary;
+const lemmas = jargon.Lemmatize(tokens, dict);
 
-let gotLookup: { [value: string]: jargon.Token; } = {};
+let gotLookup: { [value: string]: Token; } = {};
 
 for (const lemma of lemmas) {
 	gotLookup[lemma.value] = lemma;
@@ -39,9 +41,9 @@ for (const expected of expecteds) {
 
 {
 	// Ensure that Lemmatize handles input of tokens or string
-	const lemmasByString = lem.Lemmatize(text).toArray();
+	const lemmasByString = jargon.Lemmatize(text, dict).toArray();
 	const tokens = jargon.Tokenize(text);
-	const lemmasByToken = lem.Lemmatize(tokens).toArray();
+	const lemmasByToken = jargon.Lemmatize(tokens, dict).toArray();
 
 	test.assert(lemmasByString.length === lemmasByToken.length, `lemmasByString has ${lemmasByString.length} elements, lemmasByToken has ${lemmasByToken.length} elements`);
 

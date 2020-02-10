@@ -1,6 +1,10 @@
 import { Token } from "./token";
 import "./unicode";
 
+export function Tokenize(input: string) {
+	return new Tokens(input);
+}
+
 export class Tokens implements Iterable<Token> {
 	private readonly incoming: IterableIterator<string>;
 	private readonly outgoing: Array<string>;
