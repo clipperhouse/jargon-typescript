@@ -1,6 +1,6 @@
 import { tags } from "./tags";
 import { synonyms } from "./synonyms";
-import Dictionary from "../dictionary";
+import IDictionary from "../dictionary";
 
 // Dictionary is the main exported Dictionary of Stack Exchange tags and synonyms, from the following Stack Exchange sites: Stack Overflow,
 // Server Fault, Game Dev and Data Science. It's indended to identify canonical tags (technologies),
@@ -9,7 +9,7 @@ import Dictionary from "../dictionary";
 
 const empty = new Set<string>();
 
-class dict implements Dictionary {
+class dictionary implements IDictionary {
 	private readonly stopWords: Set<string>;
 
 	constructor(stopWords?: Iterable<string>) {
@@ -39,14 +39,14 @@ class dict implements Dictionary {
 	public readonly maxGramLength = 3;
 
 	public withStopWords(words: Iterable<string>) {
-		return new dict(words);
+		return new dictionary(words);
 	}
 }
 
-const Dictionary = new dict();
+const Dictionary = new dictionary();
 
 export { Dictionary };
-export default { Dictionary };
+export default Dictionary;
 
 const remove = /[.\-\/]/g;
 function normalize(s: string): string {

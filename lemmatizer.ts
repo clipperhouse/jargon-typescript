@@ -1,11 +1,11 @@
-import Dictionary from "./dictionary";
+import IDictionary from "./dictionary";
 import Token from "./token";
 import Tokenize, { Tokens } from "./tokenizer";
 
 export default Lemmatize;
 export { Lemmatize, LemmaTokens };
 
-function Lemmatize(input: Iterable<Token> | string, dictionary: Dictionary): LemmaTokens {
+function Lemmatize(input: Iterable<Token> | string, dictionary: IDictionary): LemmaTokens {
 	if (!dictionary) {
 		throw `a dictionary is required; consider importing jargon/stackexchange`;
 	}
@@ -26,7 +26,7 @@ class LemmaTokens implements Iterable<Token> {
 	private readonly buffer = new Array<Token>();
 	private readonly iterator: Iterator<Token>;
 
-	constructor(private readonly dictionary: Dictionary, incoming: Iterable<Token>) {
+	constructor(private readonly dictionary: IDictionary, incoming: Iterable<Token>) {
 		this.iterator = incoming[Symbol.iterator]();
 	}
 
@@ -55,7 +55,7 @@ class LemmaTokens implements Iterable<Token> {
 		return Array.from(this).map(t => t.value).join('');
 	}
 
-	public Lemmatize(dictionary: Dictionary): LemmaTokens {
+	public Lemmatize(dictionary: IDictionary): LemmaTokens {
 		return Lemmatize(this, dictionary);
 	}
 

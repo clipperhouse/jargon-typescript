@@ -10,10 +10,9 @@ const test = new testrun('lemmatizer');
 {
 	// Ensure that Lemmatize handles input of tokens or string
 	const text = 'I ❤️ Rails -- and aspNET and react js and node-js. and C++ and tcp/IP';
-	const dict = stackexchange.Dictionary;
-	const lemmasByString = Array.from(Lemmatize(text, dict));
+	const lemmasByString = Array.from(Lemmatize(text, stackexchange));
 	const tokens = Tokenize(text);
-	const lemmasByToken = Array.from(Lemmatize(tokens, dict));
+	const lemmasByToken = Array.from(Lemmatize(tokens, stackexchange));
 
 	test.assert(lemmasByString.length === lemmasByToken.length, `lemmasByString has ${lemmasByString.length} elements, lemmasByToken has ${lemmasByToken.length} elements`);
 
@@ -47,7 +46,7 @@ function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
 {
 	// Test stackexchange
 	const text = 'I ❤️ Rails -- and aspNET and react js and node-js. and C++ and tcp/IP';
-	const dict = stackexchange.Dictionary;
+	const dict = stackexchange;
 	const lemmas = Lemmatize(text, dict);
 
 	const expecteds: Array<expected> = [
@@ -67,7 +66,7 @@ function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
 	// Test stackexchange stop words
 	const text = 'I ❤️ Rails react and react js.';
 	const stop = ['react'];
-	const dict = stackexchange.Dictionary.withStopWords(stop);
+	const dict = stackexchange.withStopWords(stop);
 	const lemmas = Lemmatize(text, dict);
 
 	const expecteds: Array<expected> = [
@@ -83,7 +82,7 @@ function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
 {
 	// Test contractions
 	const text = "He's here and we’d be there.";
-	const dict = contractions.Dictionary;
+	const dict = contractions;
 	const lemmas = Lemmatize(text, dict);
 
 	const expecteds: Array<expected> = [
@@ -100,7 +99,7 @@ function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
 {
 	// Test fluent interface
 	const text = "She'd enjoy react.js";
-	const lemmas = Lemmatize(text, stackexchange.Dictionary).Lemmatize(contractions.Dictionary);
+	const lemmas = Lemmatize(text, stackexchange).Lemmatize(contractions);
 
 	const expecteds: Array<expected> = [
 		{ value: 'She', isLemma: true },

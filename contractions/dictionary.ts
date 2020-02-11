@@ -1,7 +1,7 @@
-import Dictionary from "../dictionary";
+import IDictionary from "../dictionary";
 import { variations } from "./variations";
 
-class dict implements Dictionary {
+class dictionary implements IDictionary {
 	constructor() { }
 
 	public Lookup(input: string[]): string | undefined {
@@ -22,7 +22,7 @@ class dict implements Dictionary {
 	public readonly maxGramLength = 1;
 }
 
-const Dictionary = new dict();
+const Dictionary = new dictionary();
 
 export { Dictionary };
-export default { Dictionary };
+export default Dictionary;
