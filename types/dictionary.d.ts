@@ -1,4 +1,4 @@
-export interface Dictionary {
-    Lookup(input: string[]): string | null;
+export default interface Dictionary {
+    Lookup(input: string[]): string | undefined;
     maxGramLength: number;
 }

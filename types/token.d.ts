@@ -1,4 +1,5 @@
-export declare class Token {
+import "./unicode";
+export default class Token {
     readonly value: string;
     readonly isLemma: boolean;
     readonly isPunct: boolean;
