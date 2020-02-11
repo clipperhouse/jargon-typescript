@@ -5,8 +5,6 @@ import Token from "../token";
 import Tokenize from "../tokenizer";
 import testrun from "./testrun";
 
-type test = { value: string, isLemma: boolean; };
-
 const test = new testrun('lemmatizer');
 
 {
@@ -26,7 +24,9 @@ const test = new testrun('lemmatizer');
 	}
 }
 
-function testDict(lemmas: Iterable<Token>, expecteds: Array<test>) {
+type expected = { value: string, isLemma: boolean; };
+
+function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
 	let gotLookup: { [value: string]: Token; } = {};
 
 	for (const lemma of lemmas) {
@@ -50,7 +50,7 @@ function testDict(lemmas: Iterable<Token>, expecteds: Array<test>) {
 	const dict = stackexchange.Dictionary;
 	const lemmas = Lemmatize(text, dict);
 
-	const expecteds: Array<test> = [
+	const expecteds: Array<expected> = [
 		{ value: 'ruby-on-rails', isLemma: true },
 		{ value: 'asp.net', isLemma: true },
 		{ value: 'reactjs', isLemma: true },
@@ -70,7 +70,7 @@ function testDict(lemmas: Iterable<Token>, expecteds: Array<test>) {
 	const dict = stackexchange.Dictionary.withStopWords(stop);
 	const lemmas = Lemmatize(text, dict);
 
-	const expecteds: Array<test> = [
+	const expecteds: Array<expected> = [
 		{ value: 'ruby-on-rails', isLemma: true },
 		{ value: 'reactjs', isLemma: true },
 		{ value: 'react', isLemma: false },
@@ -86,7 +86,7 @@ function testDict(lemmas: Iterable<Token>, expecteds: Array<test>) {
 	const dict = contractions.Dictionary;
 	const lemmas = Lemmatize(text, dict);
 
-	const expecteds: Array<test> = [
+	const expecteds: Array<expected> = [
 		{ value: 'He', isLemma: true },
 		{ value: 'is', isLemma: true },
 		{ value: 'we', isLemma: true },
@@ -102,7 +102,7 @@ function testDict(lemmas: Iterable<Token>, expecteds: Array<test>) {
 	const text = "She'd enjoy react.js";
 	const lemmas = Lemmatize(text, stackexchange.Dictionary).Lemmatize(contractions.Dictionary);
 
-	const expecteds: Array<test> = [
+	const expecteds: Array<expected> = [
 		{ value: 'She', isLemma: true },
 		{ value: 'would', isLemma: true },
 		{ value: 'reactjs', isLemma: true },
