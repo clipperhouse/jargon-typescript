@@ -1,6 +1,6 @@
 import { tags } from "./tags";
 import { synonyms } from "./synonyms";
-import { Dictionary } from "../dictionary";
+import Dictionary from "../dictionary";
 
 // Dictionary is the main exported Dictionary of Stack Exchange tags and synonyms, from the following Stack Exchange sites: Stack Overflow,
 // Server Fault, Game Dev and Data Science. It's indended to identify canonical tags (technologies),

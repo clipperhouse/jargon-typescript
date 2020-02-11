@@ -1,8 +1,11 @@
-import { Dictionary } from "./dictionary";
+import Dictionary from "./dictionary";
 import Token from "./token";
-import { Tokens, Tokenize } from "./tokenizer";
+import Tokenize, { Tokens } from "./tokenizer";
 
-export function Lemmatize(input: Iterable<Token> | string, dictionary: Dictionary): LemmaTokens {
+export default Lemmatize;
+export { Lemmatize, LemmaTokens };
+
+function Lemmatize(input: Iterable<Token> | string, dictionary: Dictionary): LemmaTokens {
 	if (!dictionary) {
 		throw `a dictionary is required; consider importing jargon/stackexchange`;
 	}
@@ -16,10 +19,10 @@ export function Lemmatize(input: Iterable<Token> | string, dictionary: Dictionar
 		return new LemmaTokens(dictionary, input);
 	}
 
-	throw `input needs to be an Iterable<Token> (via Tokenize) or a string`;
+	throw `input needs to be an iterable of Token or a string`;
 };
 
-export class LemmaTokens implements Iterable<Token> {
+class LemmaTokens implements Iterable<Token> {
 	private readonly buffer = new Array<Token>();
 	private readonly iterator: Iterator<Token>;
 

@@ -1,13 +1,14 @@
 import Token from "./token";
-import { Lemmatize, LemmaTokens } from "./lemmatizer";
-import { Dictionary } from "./dictionary";
 import "./unicode";
 
-export function Tokenize(input: string) {
+export default Tokenize;
+export { Tokenize, Tokens };
+
+function Tokenize(input: string) {
 	return new Tokens(input);
 }
 
-export class Tokens implements Iterable<Token> {
+class Tokens implements Iterable<Token> {
 	private readonly incoming: IterableIterator<string>;
 	private readonly outgoing: Array<string>;
 	constructor(input: string) {
@@ -89,10 +90,6 @@ export class Tokens implements Iterable<Token> {
 
 	public toString() {
 		return Array.from(this).map(t => t.value).join('');
-	}
-
-	public Lemmatize(dictionary: Dictionary): LemmaTokens {
-		return Lemmatize(this, dictionary);
 	}
 
 	private accept(rune: string) {
