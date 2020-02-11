@@ -4,9 +4,9 @@ import { variations } from "./variations";
 class dict implements Dictionary {
 	constructor() { }
 
-	public Lookup(input: string[]): string | null {
+	public Lookup(input: string[]): string | undefined {
 		if (input.length !== 1) {
-			return null;
+			return undefined;
 		}
 
 		const key = input[0];
@@ -16,7 +16,7 @@ class dict implements Dictionary {
 			return variation;
 		}
 
-		return null;
+		return undefined;
 	}
 
 	public readonly maxGramLength = 1;

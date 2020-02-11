@@ -16,9 +16,9 @@ class dict implements Dictionary {
 		this.stopWords = stopWords ? new Set<string>(stopWords) : empty;
 	}
 
-	public Lookup(input: string[]): string | null {
+	public Lookup(input: string[]): string | undefined {
 		if (input.length === 1 && this.stopWords.has(input[0])) {
-			return null;
+			return undefined;
 		}
 
 		const gram = input.join('');
@@ -34,7 +34,7 @@ class dict implements Dictionary {
 			return synonym;
 		}
 
-		return null;
+		return undefined;
 	}
 	public readonly maxGramLength = 3;
 
