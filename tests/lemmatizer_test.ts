@@ -63,6 +63,22 @@ function testDict(lemmas: Iterable<Token>, expecteds: Array<test>) {
 }
 
 {
+	// Test stackexchange stop words
+	const text = 'I ❤️ Rails and react js.';
+	const stop = ['react'];
+	const dict = stackexchange.Dictionary.withStopWords(stop);
+	const lemmas = jargon.Lemmatize(text, dict);
+
+	const expecteds: Array<test> = [
+		{ value: 'ruby-on-rails', isLemma: true },
+		{ value: 'react', isLemma: false },
+		{ value: '❤️', isLemma: false },
+	];
+
+	testDict(lemmas, expecteds);
+}
+
+{
 	// Test contractions
 	const text = "He's here and we’d be there.";
 	const dict = contractions.Dictionary;

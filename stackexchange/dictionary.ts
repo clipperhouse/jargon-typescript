@@ -1,6 +1,5 @@
 import { tags } from "./tags";
 import { synonyms } from "./synonyms";
-import { tagSet } from "./tagset";
 import { Dictionary } from "../dictionary";
 
 // Dictionary is the main exported Dictionary of Stack Exchange tags and synonyms, from the following Stack Exchange sites: Stack Overflow,
@@ -8,19 +7,29 @@ import { Dictionary } from "../dictionary";
 // e.g. Ruby on Rails (3 words) will be replaced with ruby-on-rails (1 word).
 // It includes the most popular 2530 tags and 2022 synonyms
 
+const empty = new Set<string>();
+
 class dict implements Dictionary {
-	constructor(private readonly tags: tagSet, private readonly synonyms: tagSet) { }
+	private readonly stopWords: Set<string>;
+
+	constructor(stopWords?: Iterable<string>) {
+		this.stopWords = stopWords ? new Set<string>(stopWords) : empty;
+	}
 
 	public Lookup(input: string[]): string | null {
 		const gram = input.join('');
+		if (this.stopWords.has(gram)) {
+			return null;
+		}
+
 		const key = normalize(gram);
 
-		const tag = tryGet(key, this.tags);
+		const tag = tags.get(key);
 		if (tag) {
 			return tag;
 		}
 
-		const synonym = tryGet(key, this.synonyms);
+		const synonym = synonyms.get(key);
 		if (synonym) {
 			return synonym;
 		}
@@ -28,19 +37,16 @@ class dict implements Dictionary {
 		return null;
 	}
 	public readonly maxGramLength = 3;
+
+	public withStopWords(words: Iterable<string>) {
+		return new dict(words);
+	}
 }
 
-const Dictionary = new dict(tags, synonyms);
+const Dictionary = new dict();
 
 export { Dictionary };
 export default { Dictionary };
-
-function tryGet(key: string, set: tagSet): string | null {
-	if (set.hasOwnProperty(key)) {
-		return set[key];
-	}
-	return null;
-}
 
 const remove = /[.\-\/]/g;
 function normalize(s: string): string {
