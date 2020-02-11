@@ -1,4 +1,3 @@
-import { Dictionary } from "../dictionary";
 import jargon from "../jargon";
 import stackexchange from "../stackexchange";
 import contractions from "../contractions";
@@ -26,10 +25,7 @@ const test = new testrun('lemmatizer');
 	}
 }
 
-function testDict(text: string, dict: Dictionary, expecteds: Array<test>) {
-	const tokens = jargon.Tokenize(text);
-	const lemmas = jargon.Lemmatize(tokens, dict);
-
+function testDict(lemmas: Iterable<Token>, expecteds: Array<test>) {
 	let gotLookup: { [value: string]: Token; } = {};
 
 	for (const lemma of lemmas) {
@@ -51,6 +47,8 @@ function testDict(text: string, dict: Dictionary, expecteds: Array<test>) {
 	// Test stackexchange
 	const text = 'I ❤️ Rails -- and aspNET and react js and node-js. and C++ and tcp/IP';
 	const dict = stackexchange.Dictionary;
+	const lemmas = jargon.Lemmatize(text, dict);
+
 	const expecteds: Array<test> = [
 		{ value: 'ruby-on-rails', isLemma: true },
 		{ value: 'asp.net', isLemma: true },
@@ -61,22 +59,39 @@ function testDict(text: string, dict: Dictionary, expecteds: Array<test>) {
 		{ value: '❤️', isLemma: false },
 	];
 
-	testDict(text, dict, expecteds);
+	testDict(lemmas, expecteds);
 }
 
 {
 	// Test contractions
 	const text = "He's here and we’d be there.";
 	const dict = contractions.Dictionary;
+	const lemmas = jargon.Lemmatize(text, dict);
+
 	const expecteds: Array<test> = [
-		{ value: "He", isLemma: true },
-		{ value: "is", isLemma: true },
-		{ value: "we", isLemma: true },
-		{ value: "would", isLemma: true },
+		{ value: 'He', isLemma: true },
+		{ value: 'is', isLemma: true },
+		{ value: 'we', isLemma: true },
+		{ value: 'would', isLemma: true },
 		{ value: 'here', isLemma: false },
 	];
 
-	testDict(text, dict, expecteds);
+	testDict(lemmas, expecteds);
+}
+
+{
+	// Test fluent interface
+	const text = "She'd enjoy react.js";
+	const lemmas = jargon.Lemmatize(text, stackexchange.Dictionary).Lemmatize(contractions.Dictionary);
+
+	const expecteds: Array<test> = [
+		{ value: 'She', isLemma: true },
+		{ value: 'would', isLemma: true },
+		{ value: 'reactjs', isLemma: true },
+		{ value: 'enjoy', isLemma: false },
+	];
+
+	testDict(lemmas, expecteds);
 }
 
 test.report();

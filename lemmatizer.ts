@@ -11,14 +11,15 @@ export function Lemmatize(input: Iterable<Token> | string, dictionary: Dictionar
 		input = Tokenize(input);
 	}
 
-	if (input instanceof Tokens) {
+	const iterable: boolean = input instanceof Tokens || input instanceof LemmaTokens;
+	if (iterable) {
 		return new LemmaTokens(dictionary, input);
 	}
 
 	throw `input needs to be an Iterable<Token> (via Tokenize) or a string`;
 };
 
-class LemmaTokens implements Iterable<Token> {
+export class LemmaTokens implements Iterable<Token> {
 	private readonly buffer = new Array<Token>();
 	private readonly iterator: Iterator<Token>;
 
@@ -53,6 +54,10 @@ class LemmaTokens implements Iterable<Token> {
 
 	public toString() {
 		return Array.from(this).map(t => t.value).join('');
+	}
+
+	public Lemmatize(dictionary: Dictionary): LemmaTokens {
+		return Lemmatize(this, dictionary);
 	}
 
 	private *ngrams() {
