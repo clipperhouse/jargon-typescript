@@ -67,9 +67,15 @@ class LemmaTokens implements Iterable<Token> {
 			const canonical = this.dictionary.Lookup(taken);
 
 			if (canonical) {
-				const token = new Token(canonical, true);
-				this.drop(count); // discard the incoming tokens that comprised the lemma
-				yield token;
+				// canonical might be multiple words
+				const tokens = Tokenize(canonical);
+
+				for (let token of tokens) {
+					const lemma = Token.fromToken(token, true);
+					this.drop(count); // discard the incoming tokens that comprised the lemma
+					yield lemma;
+				}
+
 				return;
 			}
 
