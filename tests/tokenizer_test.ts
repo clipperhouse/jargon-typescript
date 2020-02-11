@@ -1,24 +1,7 @@
-import jargon from "../jargon";
+import Tokenize from "../tokenizer";
 import testrun from "./testrun";
 
 const test = new testrun('tokenizer');
-
-const word = new jargon.Token("foo");
-test.assert(!word.isPunct, `token ${word} should not be punctuation`);
-test.assert(!word.isSpace, `token ${word} should not be space`);
-
-const punct = new jargon.Token(",");
-test.assert(punct.isPunct, `token ${punct} should be punctuation`);
-test.assert(!punct.isSpace, `token ${punct} should not be space`);
-
-const space = new jargon.Token(" ");
-test.assert(space.isSpace, `token ${space} should be space`);
-test.assert(!space.isPunct, `token ${space} should not be punct`);
-
-const lf = new jargon.Token("\n");
-test.assert(lf.isSpace, `token ${lf} should be space`);
-test.assert(lf.isPunct, `token ${lf} should be punct`);
-
 
 const text = `Hi! This is a test of tech terms. "😀"
 It should consider F#, C++, .net, Node.JS and 3.141592 and -123 to be their own tokens. 
@@ -26,7 +9,7 @@ Similarly, #hashtag and @handle should work, as should an first.last+@example.co
 It should—wait for it—break on things like em-dashes and "quotes" and it ends.
 It'd be great it it’ll handle apostrophes.
 `;
-const tokens = jargon.Tokenize(text);
+const tokens = Tokenize(text);
 
 let got = Array.from(tokens);
 const gotSet = new Set<string>(got.map(t => t.value));

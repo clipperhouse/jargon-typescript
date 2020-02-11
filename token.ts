@@ -1,3 +1,5 @@
+import "./unicode";
+
 // Token represents a piece of text with metadata.
 export default class Token {
 
