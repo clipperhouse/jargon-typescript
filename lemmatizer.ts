@@ -3,8 +3,11 @@ import { Token } from "./token";
 import { Tokens, Tokenize } from "./tokenizer";
 
 export function Lemmatize(input: Iterable<Token> | string, dictionary: Dictionary): LemmaTokens {
+	if (!dictionary) {
+		throw `a dictionary is required; consider importing jargon/stackexchange`;
+	}
+
 	if (typeof input === 'string') {
-		// Easy mistake to make given the API; handle it
 		input = Tokenize(input);
 	}
 
@@ -12,7 +15,7 @@ export function Lemmatize(input: Iterable<Token> | string, dictionary: Dictionar
 		return new LemmaTokens(dictionary, input);
 	}
 
-	throw `input needs to be an Iterable<Token> or a string. You probably need to Tokenize() first and pass that result into Lemmatize().`;
+	throw `input needs to be an Iterable<Token> (via Tokenize) or a string`;
 };
 
 class LemmaTokens implements Iterable<Token> {

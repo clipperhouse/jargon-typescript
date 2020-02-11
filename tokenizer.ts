@@ -9,6 +9,14 @@ export class Tokens implements Iterable<Token> {
 	private readonly incoming: IterableIterator<string>;
 	private readonly outgoing: Array<string>;
 	constructor(input: string) {
+		if (!input) {
+			throw `an input string is required`;
+		}
+
+		if (typeof input !== 'string') {
+			throw `input must be a string`;
+		}
+
 		this.incoming = input[Symbol.iterator]();
 		this.outgoing = new Array<string>();
 	}
