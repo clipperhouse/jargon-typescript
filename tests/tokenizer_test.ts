@@ -1,5 +1,5 @@
 import jargon from "../jargon";
-import { testrun } from "./testrun";
+import testrun from "./testrun";
 
 const test = new testrun('tokenizer');
 
@@ -28,12 +28,8 @@ It'd be great it it’ll handle apostrophes.
 `;
 const tokens = jargon.Tokenize(text);
 
-let got = tokens.toArray();
-
-let gotMap: { [value: string]: boolean; } = {};
-for (const token of got) {
-	gotMap[token.value] = true;
-}
+let got = Array.from(tokens);
+const gotSet = new Set<string>(got.map(t => t.value));
 
 const expecteds = [
 	"Hi", "!", "a", '"', "😀",
@@ -44,7 +40,7 @@ const expecteds = [
 ];
 
 for (const expected of expecteds) {
-	test.assert(expected.in(gotMap), `expected to find token ${expected}`);
+	test.assert(gotSet.has(expected), `expected to find token ${expected}`);
 }
 
 // Check that last .

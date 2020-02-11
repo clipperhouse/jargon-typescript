@@ -1,4 +1,4 @@
-import { Token } from "./token";
+import Token from "./token";
 import { Lemmatize, LemmaTokens } from "./lemmatizer";
 import { Dictionary } from "./dictionary";
 import "./unicode";
@@ -86,10 +86,6 @@ export class Tokens implements Iterable<Token> {
 			throw "should be nothing left in the buffer, this is a bug";
 		}
 	};
-
-	public toArray(): Array<Token> {
-		return Array.from(this);
-	}
 
 	public toString() {
 		return Array.from(this).map(t => t.value).join('');

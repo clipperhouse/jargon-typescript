@@ -1,6 +1,6 @@
 /// <reference lib="dom"/>
 
-export class testrun {
+export default class testrun {
 	private successes = 0;
 	private failures = 0;
 	constructor(private readonly name: string) {

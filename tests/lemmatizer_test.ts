@@ -1,8 +1,8 @@
 import jargon from "../jargon";
 import stackexchange from "../stackexchange";
 import contractions from "../contractions";
-import { Token } from "../token";
-import { testrun } from "./testrun";
+import Token from "../token";
+import testrun from "./testrun";
 
 type test = { value: string, isLemma: boolean; };
 
@@ -12,9 +12,9 @@ const test = new testrun('lemmatizer');
 	// Ensure that Lemmatize handles input of tokens or string
 	const text = 'I ❤️ Rails -- and aspNET and react js and node-js. and C++ and tcp/IP';
 	const dict = stackexchange.Dictionary;
-	const lemmasByString = jargon.Lemmatize(text, dict).toArray();
+	const lemmasByString = Array.from(jargon.Lemmatize(text, dict));
 	const tokens = jargon.Tokenize(text);
-	const lemmasByToken = jargon.Lemmatize(tokens, dict).toArray();
+	const lemmasByToken = Array.from(jargon.Lemmatize(tokens, dict));
 
 	test.assert(lemmasByString.length === lemmasByToken.length, `lemmasByString has ${lemmasByString.length} elements, lemmasByToken has ${lemmasByToken.length} elements`);
 
@@ -64,13 +64,14 @@ function testDict(lemmas: Iterable<Token>, expecteds: Array<test>) {
 
 {
 	// Test stackexchange stop words
-	const text = 'I ❤️ Rails and react js.';
+	const text = 'I ❤️ Rails react and react js.';
 	const stop = ['react'];
 	const dict = stackexchange.Dictionary.withStopWords(stop);
 	const lemmas = jargon.Lemmatize(text, dict);
 
 	const expecteds: Array<test> = [
 		{ value: 'ruby-on-rails', isLemma: true },
+		{ value: 'reactjs', isLemma: true },
 		{ value: 'react', isLemma: false },
 		{ value: '❤️', isLemma: false },
 	];

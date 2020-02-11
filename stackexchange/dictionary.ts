@@ -17,11 +17,11 @@ class dict implements Dictionary {
 	}
 
 	public Lookup(input: string[]): string | null {
-		const gram = input.join('');
-		if (this.stopWords.has(gram)) {
+		if (input.length === 1 && this.stopWords.has(input[0])) {
 			return null;
 		}
 
+		const gram = input.join('');
 		const key = normalize(gram);
 
 		const tag = tags.get(key);

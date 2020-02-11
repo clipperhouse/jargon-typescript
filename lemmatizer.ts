@@ -1,5 +1,5 @@
 import { Dictionary } from "./dictionary";
-import { Token } from "./token";
+import Token from "./token";
 import { Tokens, Tokenize } from "./tokenizer";
 
 export function Lemmatize(input: Iterable<Token> | string, dictionary: Dictionary): LemmaTokens {
@@ -46,10 +46,6 @@ export class LemmaTokens implements Iterable<Token> {
 
 			yield* this.ngrams();
 		}
-	}
-
-	public toArray(): Array<Token> {
-		return Array.from(this);
 	}
 
 	public toString() {

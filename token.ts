@@ -1,5 +1,5 @@
 // Token represents a piece of text with metadata.
-export class Token {
+export default class Token {
 
 	readonly isPunct: boolean = this.value.isPunct();
 	readonly isSpace: boolean = this.value.isSpace();
