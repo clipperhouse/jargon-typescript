@@ -5,22 +5,57 @@ import Tokenize, { Tokens } from "./tokenizer";
 export default Lemmatize;
 export { Lemmatize, LemmaTokens };
 
-function Lemmatize(input: Iterable<Token> | string, dictionary: IDictionary): LemmaTokens {
-	if (!dictionary) {
-		throw `a dictionary is required; consider importing jargon/stackexchange`;
-	}
-
+function Lemmatize(input: Iterable<Token> | string, ...dictionaries: Array<IDictionary>): Iterable<Token> {
 	if (typeof input === 'string') {
 		input = Tokenize(input);
 	}
 
 	const iterable: boolean = input instanceof Tokens || input instanceof LemmaTokens;
-	if (iterable) {
-		return new LemmaTokens(dictionary, input);
+	if (!iterable) {
+		throw `input needs to be string or an iterable of Token`;
 	}
 
-	throw `input needs to be an iterable of Token or a string`;
+	if (!dictionaries || dictionaries.length === 0) {
+		throw `a dictionary is required; consider importing @clipperhouse/jargon/stackexchange`;
+	}
+
+	for (const dictionary of dictionaries) {
+		const dict = checkDictionary(dictionary);
+
+		if (!dict) {
+			throw `dictionary is ${dictionary}`;
+		}
+
+		if (iterable) {
+			input = new LemmaTokens(dict, input);
+			continue;
+		}
+	}
+
+	return input;
 };
+
+function hasDictionaryMembers(dictionary: any) {
+	const ok = typeof dictionary.Lookup === 'function' && dictionary.hasOwnProperty('maxGramLength');
+	return ok;
+}
+
+function checkDictionary(dictionary: any): IDictionary {
+	// In TypeScript targeting commonjs, default happens automagically
+	// In JavaScript, not so much; try to find it
+	// Too much magic? Probably.
+
+	if (hasDictionaryMembers(dictionary)) {
+		return dictionary;
+	}
+
+	const def = dictionary.default;
+	if (def && hasDictionaryMembers(def)) {
+		return def as IDictionary;
+	}
+
+	return dictionary;
+}
 
 class LemmaTokens implements Iterable<Token> {
 	private readonly buffer = new Array<Token>();
@@ -55,10 +90,6 @@ class LemmaTokens implements Iterable<Token> {
 		return Array.from(this).map(t => t.value).join('');
 	}
 
-	public Lemmatize(dictionary: IDictionary): LemmaTokens {
-		return Lemmatize(this, dictionary);
-	}
-
 	private *ngrams() {
 		// Try n-grams, longest to shortest (greedy)
 		for (let take = this.dictionary.maxGramLength; take > 0; take--) {
@@ -76,9 +107,9 @@ class LemmaTokens implements Iterable<Token> {
 
 				for (let token of tokens) {
 					const lemma = Token.fromToken(token, true);
-					this.drop(count); // discard the incoming tokens that comprised the lemma
 					yield lemma;
 				}
+				this.drop(count); // discard the incoming tokens that comprised the lemma
 
 				return;
 			}

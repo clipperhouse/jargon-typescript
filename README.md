@@ -13,7 +13,7 @@ Then create a file, preferably TypeScript.
 ```ts
 // demo.ts
 
-import jargon from '@clipperhouse/jargon';		
+import jargon from '@clipperhouse/jargon';	
 import stackexchange from '@clipperhouse/jargon/stackexchange';	// a dictionary
 
 const text = 'I ❤️ Ruby on Rails and vue';
@@ -42,12 +42,35 @@ console.log(lemmas.toString());
 
 ## What’s it doing?
 
-`jargon` tokenizes the incoming text, identifying punctuation and spaces. It understands tech-ish terms as single words, such as asp.net and TCP/IP, and #hangtags and @handles (other tokenizers would see two words).
+`jargon` tokenizes the incoming text — it’s not search-and-replace or regex. It understands tech-ish terms as single words, such as Node.js and TCP/IP, and #hashtags and @handles, where other tokenizers might split those words. It does pretty well with email addresses and URLs.
 
-Those tokens go to the lemmatizer, with a `dictionary`. The lemmatizer passes over tokens, and asks the dictionary if it recognizes them. It handles multi-token phrases like 'Ruby on Rails', converting it a single `ruby-on-rails` token.
+Tokens go to the lemmatizer, with a `dictionary`. The lemmatizer passes over tokens, and asks the dictionary if it recognizes them. It greedily looks for multi-token phrases like 'Ruby on Rails', converting them a single `ruby-on-rails` token.
 
-It is insensitive to spaces, hyphens, dots, slashes and case -- so it handles a lot of variation that would be difficult to get right with simple search-and-replace or regex.
+The lemmatizer returns a lazy iterable. You should consume tokens with `for..of`.
 
-These rules are defined in a Dictionary. In the above examples, `stackexchange` is the dictionary, and it knows about react vs react.js. It also understands synonyms, such as ecmascript ↔ javascript.
+## Dictionaries
 
-Another example is the `contractions` dictionary. It'll split tokens like `it'll` into two tokens `it` and `will`.
+Two dictionaries are included.
+
+The `stackexchange` dictionary looks for technology terms, using tags and synonyms from Stack Overflow. It is insensitive to spaces, hyphens, dots, slashes and case, so variations like ASPNET and asp.net are recognized as the same thing. It also understands synonyms such as ecmascript ↔ javascript.
+
+Another example is the `contractions` dictionary. It splits tokens like `it'll` into two tokens `it` and `will`.
+
+You can pass multiple dictionaries to the lemmatizer.
+
+```ts
+// demo.ts
+
+import jargon from '@clipperhouse/jargon';
+import stackexchange from '@clipperhouse/jargon/stackexchange';
+import contractions from '@clipperhouse/jargon/contractions';
+
+const text = 'She’ll use react js and type script';
+
+const lemmas = jargon.Lemmatize(text, stackexchange, contractions);
+
+console.log(lemmas.toString());
+
+// She will use react.js and typescript
+
+```

@@ -24,5 +24,5 @@ class dictionary implements IDictionary {
 
 const Dictionary = new dictionary();
 
-export { Dictionary };
 export default Dictionary;
+export { Dictionary };

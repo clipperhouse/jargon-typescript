@@ -97,9 +97,9 @@ function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
 }
 
 {
-	// Test fluent interface
+	// Test multiple dictionaries
 	const text = "She'd enjoy react.js";
-	const lemmas = Lemmatize(text, stackexchange).Lemmatize(contractions);
+	const lemmas = Lemmatize(text, stackexchange, contractions);
 
 	const expecteds: Array<expected> = [
 		{ value: 'She', isLemma: true },
