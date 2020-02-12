@@ -25,7 +25,7 @@ function Lemmatize(input: Iterable<Token> | string, ...dictionaries: Array<IDict
 		const dict = checkDictionary(dictionary);
 
 		if (!dict) {
-			throw `dictionary is ${dictionary}`;
+			throw `not a dictionary: ${dictionary}`;
 		}
 
 		result = new LemmaTokens(dict, result);
@@ -53,7 +53,7 @@ function checkDictionary(dictionary: any) {
 		return def;
 	}
 
-	return dictionary;
+	return undefined;
 }
 
 class LemmaTokens implements Iterable<Token> {
