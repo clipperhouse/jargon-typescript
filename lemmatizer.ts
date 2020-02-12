@@ -10,7 +10,9 @@ function Lemmatize(input: Iterable<Token> | string, ...dictionaries: Array<IDict
 		input = Tokenize(input);
 	}
 
-	const iterable: boolean = input instanceof Tokens || input instanceof LemmaTokens;
+	let result = input;
+
+	const iterable: boolean = result instanceof Tokens || result instanceof LemmaTokens;
 	if (!iterable) {
 		throw `input needs to be string or an iterable of Token`;
 	}
@@ -26,10 +28,10 @@ function Lemmatize(input: Iterable<Token> | string, ...dictionaries: Array<IDict
 			throw `dictionary is ${dictionary}`;
 		}
 
-		input = new LemmaTokens(dict, input);
+		result = new LemmaTokens(dict, result);
 	}
 
-	return input;
+	return result;
 };
 
 function hasDictionaryMembers(dictionary: any) {
