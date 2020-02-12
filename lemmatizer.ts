@@ -26,10 +26,7 @@ function Lemmatize(input: Iterable<Token> | string, ...dictionaries: Array<IDict
 			throw `dictionary is ${dictionary}`;
 		}
 
-		if (iterable) {
-			input = new LemmaTokens(dict, input);
-			continue;
-		}
+		input = new LemmaTokens(dict, input);
 	}
 
 	return input;
