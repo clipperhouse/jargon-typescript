@@ -4,6 +4,7 @@ import stackexchange from "../stackexchange";
 import Token from "../token";
 import Tokenize from "../tokenizer";
 import testrun from "./testrun";
+import IDictionary from "../dictionary";
 
 const test = new testrun('lemmatizer');
 
@@ -109,6 +110,30 @@ function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
 	];
 
 	testDict(lemmas, expecteds);
+}
+
+{
+	// Test no dictionary
+	const text = "She'd enjoy react.js";
+	let caught: string | undefined;
+	try {
+		Lemmatize(text);
+	} catch (error) {
+		caught = error;
+	}
+	test.assert(caught !== undefined, `lack of dictionary should throw`);
+}
+
+{
+	// Test bad dictionary
+	const text = "She'd enjoy react.js";
+	let caught: string | undefined;
+	try {
+		Lemmatize(text, {} as IDictionary);
+	} catch (error) {
+		caught = error;
+	}
+	test.assert(caught !== undefined, `non-dictionary should throw`);
 }
 
 test.report();
