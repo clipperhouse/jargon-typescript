@@ -1,4 +1,4 @@
-export const tags = new Map([
+export default new Map<string, string>([
 	["modproxy", "mod-proxy"],
 	["gui", "gui"],
 	["supervisedlearning", "supervised-learning"],

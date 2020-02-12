@@ -1,5 +1,5 @@
 import IDictionary from "../dictionary";
-import { variations } from "./variations";
+import variations from "./variations";
 
 class dictionary implements IDictionary {
 	constructor() { }

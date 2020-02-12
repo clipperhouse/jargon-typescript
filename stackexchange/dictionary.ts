@@ -1,5 +1,5 @@
-import { tags } from "./tags";
-import { synonyms } from "./synonyms";
+import tags from "./tags";
+import synonyms from "./synonyms";
 import IDictionary from "../dictionary";
 
 // Dictionary is the main exported Dictionary of Stack Exchange tags and synonyms, from the following Stack Exchange sites: Stack Overflow,

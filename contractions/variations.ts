@@ -1,4 +1,4 @@
-export const variations = new Map<string, string>([
+export default new Map<string, string>([
 	["She’s", "She is"],
 	["He'll", "He will"],
 	["WE'D", "WE WOULD"],

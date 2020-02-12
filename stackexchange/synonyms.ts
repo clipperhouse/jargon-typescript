@@ -1,4 +1,4 @@
-export const synonyms = new Map<string, string>([
+export default new Map<string, string>([
 	["httpservletrequest", "servlets"],
 	["sparksql", "apache-spark-sql"],
 	["rewriterules", "mod-rewrite"],
