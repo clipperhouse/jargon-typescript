@@ -35,7 +35,7 @@ function Lemmatize(input: Iterable<Token> | string, ...dictionaries: Array<IDict
 };
 
 function hasDictionaryMembers(dictionary: any) {
-	const ok = typeof dictionary.Lookup === 'function' && dictionary.hasOwnProperty('maxGramLength');
+	const ok = typeof dictionary.Lookup === 'function' && typeof dictionary.maxGramLength === 'number';
 	return ok;
 }
 
