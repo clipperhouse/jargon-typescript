@@ -40,7 +40,7 @@ function hasDictionaryMembers(dictionary: any) {
 	return ok;
 }
 
-function checkDictionary(dictionary: any): IDictionary {
+function checkDictionary(dictionary: any) {
 	// In TypeScript targeting commonjs, default happens automagically
 	// In JavaScript, not so much; try to find it
 	// Too much magic? Probably.
@@ -51,7 +51,7 @@ function checkDictionary(dictionary: any): IDictionary {
 
 	const def = dictionary.default;
 	if (def && hasDictionaryMembers(def)) {
-		return def as IDictionary;
+		return def;
 	}
 
 	return dictionary;
