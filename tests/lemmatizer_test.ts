@@ -137,15 +137,25 @@ function testDict(tokens: Iterable<Token>, expecteds: Iterable<expected>) {
 }
 
 {
-	// Test Lemmas()
+	// Test filter()
 	const text = 'I ❤️ Rails -- and aspNET and react js and node-js. and C++ and tcp/IP';
 	const dict = stackexchange;
 	const lemmatized = Lemmatize(text, dict);
-	const lemmas = lemmatized.Lemmas();
+	const lemmas = lemmatized.filter(t => t.isLemma);
 
 	for (const lemma of lemmas) {
 		test.assert(lemma.isLemma, `all tokens should be lemmas, but got ${lemma}`);
 	}
+}
+
+{
+	// Test toString()
+	const text = 'I am a string';
+	const dict = stackexchange;
+	const lemmatized = Lemmatize(text, dict);
+
+	const s = lemmatized.toString();
+	test.assert(s === text, `toString should result in ${text}, got ${s}`);
 }
 
 test.report();

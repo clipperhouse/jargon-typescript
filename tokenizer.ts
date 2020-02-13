@@ -1,5 +1,6 @@
 import Token from "./token";
 import "./unicode";
+import Iterables from "./iterables";
 
 export default Tokenize;
 export { Tokenize, Tokens };
@@ -8,10 +9,11 @@ function Tokenize(input: string) {
 	return new Tokens(input);
 }
 
-class Tokens implements Iterable<Token> {
+class Tokens extends Iterables implements Iterable<Token> {
 	private readonly incoming: IterableIterator<string>;
 	private readonly outgoing: Array<string>;
 	constructor(input: string) {
+		super();
 		if (!input) {
 			throw `an input string is required`;
 		}
@@ -87,10 +89,6 @@ class Tokens implements Iterable<Token> {
 			throw "should be nothing left in the buffer, this is a bug";
 		}
 	};
-
-	public toString() {
-		return Array.from(this).map(t => t.value).join('');
-	}
 
 	private accept(rune: string) {
 		this.outgoing.push(rune);

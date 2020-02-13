@@ -1,6 +1,7 @@
 import IDictionary from "./dictionary";
 import Token from "./token";
 import Tokenize, { Tokens } from "./tokenizer";
+import Iterables from "./iterables";
 
 export default Lemmatize;
 export { Lemmatize, LemmatizedTokens };
@@ -63,11 +64,12 @@ function checkDictionary(dictionary: any) {
 	return undefined;
 }
 
-class LemmatizedTokens implements Iterable<Token> {
+class LemmatizedTokens extends Iterables implements Iterable<Token>  {
 	private readonly buffer = new Array<Token>();
 	private readonly iterator: Iterator<Token>;
 
 	constructor(private readonly dictionary: IDictionary, incoming: Iterable<Token>) {
+		super();
 		this.iterator = incoming[Symbol.iterator]();
 	}
 
@@ -89,18 +91,6 @@ class LemmatizedTokens implements Iterable<Token> {
 			}
 
 			yield* this.ngrams();
-		}
-	}
-
-	public toString(): string {
-		return Array.from(this).map(t => t.value).join('');
-	}
-
-	public *Lemmas(): Iterable<Token> {
-		for (const token of this) {
-			if (token.isLemma) {
-				yield token;
-			}
 		}
 	}
 
@@ -194,3 +184,4 @@ class LemmatizedTokens implements Iterable<Token> {
 
 type wordrun = { taken: Array<string>, consumed: number, success: boolean; };
 const nothing: wordrun = { taken: new Array<string>(0), consumed: 0, success: false };
+

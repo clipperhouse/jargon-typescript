@@ -45,4 +45,24 @@ for (const token of got) {
 	test.assert(ok, `found trailing punctuation in ${token}`);
 }
 
+{
+	// Test filter
+	const text = 'Hello and good day';
+	const tokens = Tokenize(text);
+	const spaces = tokens.filter(t => t.isSpace);
+	for (const space of spaces) {
+		test.assert(space.isSpace, `all tokens should be space, but got ${space}`);
+	}
+}
+
+{
+	// Test toString()
+	const text = 'I am a string';
+	const lemmatized = Tokenize(text);
+
+	const s = lemmatized.toString();
+	test.assert(s === text, `toString should result in ${text}, got ${s}`);
+}
+
+
 test.report();
