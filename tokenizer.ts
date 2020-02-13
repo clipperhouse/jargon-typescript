@@ -9,7 +9,7 @@ function Tokenize(input: string) {
 	return new Tokens(input);
 }
 
-class Tokens extends Iterables implements Iterable<Token> {
+class Tokens extends Iterables<Token> implements Iterable<Token> {
 	private readonly incoming: IterableIterator<string>;
 	private readonly outgoing: Array<string>;
 	constructor(input: string) {

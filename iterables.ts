@@ -1,7 +1,9 @@
 import Token from "./token";
 
-export default class Iterables {
+export default abstract class Iterables<T> implements Iterable<T> {
 	constructor() { }
+
+	abstract [Symbol.iterator](): IterableIterator<T>;
 
 	public *filter<T>(this: Iterable<T>, f: (t: T) => boolean): Iterable<T> {
 		for (const t of this) {
@@ -11,13 +13,20 @@ export default class Iterables {
 		}
 	}
 
-	public *map<TFrom, TTo>(this: Iterable<TFrom>, f: (t: TFrom) => TTo): Iterable<TTo> {
+	private join<T>(this: Iterable<T>, f: (t: T) => string): string {
+		// This looks like a naive implementation but I believe the + operator
+		// is pretty optimized these days.
+		// Alternative is an intermediate Array.from, with a call to Array.join;
+		// the following avoids that approach with a lazier evaluation.
+
+		let result = '';
 		for (const t of this) {
-			yield f(t);
+			result += f(t);
 		}
+		return result;
 	}
 
-	public toString(this: Iterable<Token>): string {
-		return Array.from(this).map(t => t.value).join('');
+	public toString(this: Iterables<Token>): string {
+		return this.join(t => t.value);
 	}
 }
