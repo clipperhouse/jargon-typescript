@@ -1,11 +1,9 @@
 {
-  "name": "@clipperhouse/stackexchange",
-  "version": "0.0.1",
-  "description": "A dictionary for use with the @clipperhouse/jargon package",
-  "main": "dictionary.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Matt Sherman",
-  "license": "ISC"
+	"name": "@clipperhouse/stackexchange",
+	"version": "0.0.1",
+	"description": "A dictionary for use with the @clipperhouse/jargon package",
+	"main": "dictionary.js",
+	"scripts": {},
+	"author": "Matt Sherman",
+	"license": "ISC"
 }
