@@ -11,26 +11,26 @@ const test = new testrun('lemmatizer');
 {
 	// Ensure that Lemmatize handles input of tokens or string
 	const text = 'I ❤️ Rails -- and aspNET and react js and node-js. and C++ and tcp/IP';
-	const lemmasByString = Array.from(Lemmatize(text, stackexchange));
+	const lemmatizedString = Array.from(Lemmatize(text, stackexchange));
 	const tokens = Tokenize(text);
-	const lemmasByToken = Array.from(Lemmatize(tokens, stackexchange));
+	const lemmatizedTokens = Array.from(Lemmatize(tokens, stackexchange));
 
-	test.assert(lemmasByString.length === lemmasByToken.length, `lemmasByString has ${lemmasByString.length} elements, lemmasByToken has ${lemmasByToken.length} elements`);
+	test.assert(lemmatizedString.length === lemmatizedTokens.length, `lemmasByString has ${lemmatizedString.length} elements, lemmasByToken has ${lemmatizedTokens.length} elements`);
 
-	for (let i = 0; i < lemmasByString.length; i++) {
-		const byString = lemmasByString[i];
-		const byToken = lemmasByToken[i];
+	for (let i = 0; i < lemmatizedString.length; i++) {
+		const byString = lemmatizedString[i];
+		const byToken = lemmatizedTokens[i];
 		test.assert(byString.equals(byToken), `${byString} != ${byToken}`);
 	}
 }
 
 type expected = { value: string, isLemma: boolean; };
 
-function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
+function testDict(tokens: Iterable<Token>, expecteds: Iterable<expected>) {
 	let gotLookup: { [value: string]: Token; } = {};
 
-	for (const lemma of lemmas) {
-		gotLookup[lemma.value] = lemma;
+	for (const token of tokens) {
+		gotLookup[token.value] = token;
 	}
 
 	for (const expected of expecteds) {
@@ -48,7 +48,7 @@ function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
 	// Test stackexchange
 	const text = 'I ❤️ Rails -- and aspNET and react js and node-js. and C++ and tcp/IP';
 	const dict = stackexchange;
-	const lemmas = Lemmatize(text, dict);
+	const lemmatized = Lemmatize(text, dict);
 
 	const expecteds: Array<expected> = [
 		{ value: 'ruby-on-rails', isLemma: true },
@@ -60,7 +60,7 @@ function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
 		{ value: '❤️', isLemma: false },
 	];
 
-	testDict(lemmas, expecteds);
+	testDict(lemmatized, expecteds);
 }
 
 {
@@ -68,7 +68,7 @@ function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
 	const text = 'I ❤️ Rails react and react js.';
 	const stop = ['react'];
 	const dict = stackexchange.withStopWords(stop);
-	const lemmas = Lemmatize(text, dict);
+	const lemmatized = Lemmatize(text, dict);
 
 	const expecteds: Array<expected> = [
 		{ value: 'ruby-on-rails', isLemma: true },
@@ -77,14 +77,14 @@ function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
 		{ value: '❤️', isLemma: false },
 	];
 
-	testDict(lemmas, expecteds);
+	testDict(lemmatized, expecteds);
 }
 
 {
 	// Test contractions
 	const text = "He's here and we’d be there.";
 	const dict = contractions;
-	const lemmas = Lemmatize(text, dict);
+	const lemmatized = Lemmatize(text, dict);
 
 	const expecteds: Array<expected> = [
 		{ value: 'He', isLemma: true },
@@ -94,13 +94,13 @@ function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
 		{ value: 'here', isLemma: false },
 	];
 
-	testDict(lemmas, expecteds);
+	testDict(lemmatized, expecteds);
 }
 
 {
 	// Test multiple dictionaries
 	const text = "She'd enjoy react.js";
-	const lemmas = Lemmatize(text, stackexchange, contractions);
+	const lemmatized = Lemmatize(text, stackexchange, contractions);
 
 	const expecteds: Array<expected> = [
 		{ value: 'She', isLemma: true },
@@ -109,7 +109,7 @@ function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
 		{ value: 'enjoy', isLemma: false },
 	];
 
-	testDict(lemmas, expecteds);
+	testDict(lemmatized, expecteds);
 }
 
 {
@@ -134,6 +134,18 @@ function testDict(lemmas: Iterable<Token>, expecteds: Iterable<expected>) {
 		caught = error;
 	}
 	test.assert(caught !== undefined, `non-dictionary should throw`);
+}
+
+{
+	// Test Lemmas()
+	const text = 'I ❤️ Rails -- and aspNET and react js and node-js. and C++ and tcp/IP';
+	const dict = stackexchange;
+	const lemmatized = Lemmatize(text, dict);
+	const lemmas = lemmatized.Lemmas();
+
+	for (const lemma of lemmas) {
+		test.assert(lemma.isLemma, `all tokens should be lemmas, but got ${lemma}`);
+	}
 }
 
 test.report();

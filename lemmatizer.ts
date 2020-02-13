@@ -5,7 +5,7 @@ import Tokenize, { Tokens } from "./tokenizer";
 export default Lemmatize;
 export { Lemmatize, LemmatizedTokens };
 
-function Lemmatize(input: Iterable<Token> | string, ...dictionaries: Array<IDictionary>): Iterable<Token> {
+function Lemmatize(input: Iterable<Token> | string, ...dictionaries: Array<IDictionary>): LemmatizedTokens {
 	if (typeof input === 'string') {
 		input = Tokenize(input);
 	}
@@ -29,6 +29,13 @@ function Lemmatize(input: Iterable<Token> | string, ...dictionaries: Array<IDict
 		}
 
 		result = new LemmatizedTokens(dict, result);
+	}
+
+	// If we got this far, result has to be LemmatizedTokens,
+	// but TypeScript control flow doesn't know that apparently,
+	// so force the assertion.
+	if (!(result instanceof LemmatizedTokens)) {
+		throw `result should be LemmatizedTokens; this is a bug`;
 	}
 
 	return result;
@@ -87,6 +94,14 @@ class LemmatizedTokens implements Iterable<Token> {
 
 	public toString(): string {
 		return Array.from(this).map(t => t.value).join('');
+	}
+
+	public *Lemmas(): Iterable<Token> {
+		for (const token of this) {
+			if (token.isLemma) {
+				yield token;
+			}
+		}
 	}
 
 	private *ngrams() {
