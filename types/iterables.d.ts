@@ -1,8 +1,6 @@
 import Token from "./token";
-export default abstract class Iterables<T> implements Iterable<T> {
+export default abstract class Iterables {
     constructor();
-    abstract [Symbol.iterator](): IterableIterator<T>;
-    filter<T>(this: Iterable<T>, f: (t: T) => boolean): Iterable<T>;
-    private join;
-    toString(this: Iterables<Token>): string;
+    filter(this: Iterable<Token>, f: (t: Token) => boolean): Iterable<Token>;
+    toString(this: Iterable<Token>): string;
 }
