@@ -1,9 +1,9 @@
 import IDictionary from "./dictionary";
 import Token from "./token";
 export default Lemmatize;
-export { Lemmatize, LemmaTokens };
+export { Lemmatize, LemmatizedTokens };
 declare function Lemmatize(input: Iterable<Token> | string, ...dictionaries: Array<IDictionary>): Iterable<Token>;
-declare class LemmaTokens implements Iterable<Token> {
+declare class LemmatizedTokens implements Iterable<Token> {
     private readonly dictionary;
     private readonly buffer;
     private readonly iterator;

@@ -3,7 +3,7 @@ import Token from "./token";
 import Tokenize, { Tokens } from "./tokenizer";
 
 export default Lemmatize;
-export { Lemmatize, LemmaTokens };
+export { Lemmatize, LemmatizedTokens };
 
 function Lemmatize(input: Iterable<Token> | string, ...dictionaries: Array<IDictionary>): Iterable<Token> {
 	if (typeof input === 'string') {
@@ -12,7 +12,7 @@ function Lemmatize(input: Iterable<Token> | string, ...dictionaries: Array<IDict
 
 	let result = input;
 
-	const iterable: boolean = result instanceof Tokens || result instanceof LemmaTokens;
+	const iterable: boolean = result instanceof Tokens || result instanceof LemmatizedTokens;
 	if (!iterable) {
 		throw `input needs to be string or an iterable of Token`;
 	}
@@ -28,7 +28,7 @@ function Lemmatize(input: Iterable<Token> | string, ...dictionaries: Array<IDict
 			throw `not a dictionary: ${dictionary}`;
 		}
 
-		result = new LemmaTokens(dict, result);
+		result = new LemmatizedTokens(dict, result);
 	}
 
 	return result;
@@ -56,7 +56,7 @@ function checkDictionary(dictionary: any) {
 	return undefined;
 }
 
-class LemmaTokens implements Iterable<Token> {
+class LemmatizedTokens implements Iterable<Token> {
 	private readonly buffer = new Array<Token>();
 	private readonly iterator: Iterator<Token>;
 

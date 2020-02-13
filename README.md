@@ -18,9 +18,9 @@ import stackexchange from '@clipperhouse/jargon/stackexchange';	// a dictionary
 
 const text = 'I ❤️ Ruby on Rails and vue';
 
-const lemmas = jargon.Lemmatize(text, stackexchange);
+const lemmatized = jargon.Lemmatize(text, stackexchange);
 
-console.log(lemmas.toString());
+console.log(lemmatized.toString());
 
 // I ❤️ ruby-on-rails and vue.js
 
@@ -34,8 +34,8 @@ const stackexchange = require('@clipperhouse/jargon/stackexchange');
 
 const text = 'I ❤️ Ruby on Rails and vue';
 
-const lemmas = jargon.Lemmatize(text, stackexchange);
-console.log(lemmas.toString());
+const lemmatized = jargon.Lemmatize(text, stackexchange);
+console.log(lemmatized.toString());
 
 // I ❤️ ruby-on-rails and vue.js
 ```
@@ -67,9 +67,9 @@ import contractions from '@clipperhouse/jargon/contractions';
 
 const text = 'She’ll use react js and type script';
 
-const lemmas = jargon.Lemmatize(text, stackexchange, contractions);
+const lemmatized = jargon.Lemmatize(text, stackexchange, contractions);
 
-console.log(lemmas.toString());
+console.log(lemmatized.toString());
 
 // She will use react.js and typescript
 
