@@ -64,7 +64,7 @@ function checkDictionary(dictionary: any) {
 	return undefined;
 }
 
-class LemmatizedTokens extends Iterables implements Iterable<Token>  {
+class LemmatizedTokens extends Iterables<Token> implements Iterable<Token>  {
 	private readonly buffer = new Array<Token>();
 	private readonly iterator: Iterator<Token>;
 
