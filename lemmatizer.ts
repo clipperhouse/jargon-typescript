@@ -85,20 +85,20 @@ class LemmatizedTokens implements Iterable<Token> {
 		}
 	}
 
-	public toString() {
+	public toString(): string {
 		return Array.from(this).map(t => t.value).join('');
 	}
 
 	private *ngrams() {
 		// Try n-grams, longest to shortest (greedy)
 		for (let take = this.dictionary.maxGramLength; take > 0; take--) {
-			const { taken, count, success } = this.wordrun(take);
+			const wordrun = this.wordrun(take);
 
-			if (!success) {
+			if (!wordrun.success) {
 				continue; // on to the next n-gram
 			}
 
-			const canonical = this.dictionary.Lookup(taken);
+			const canonical = this.dictionary.Lookup(wordrun.taken);
 
 			if (canonical) {
 				// canonical might be multiple words
@@ -108,7 +108,7 @@ class LemmatizedTokens implements Iterable<Token> {
 					const lemma = Token.fromToken(token, true);
 					yield lemma;
 				}
-				this.drop(count); // discard the incoming tokens that comprised the lemma
+				this.drop(wordrun.consumed); // discard the incoming tokens that comprised the lemma
 
 				return;
 			}
@@ -124,21 +124,19 @@ class LemmatizedTokens implements Iterable<Token> {
 		throw "did not find a token. this should never happen";
 	}
 
-	private wordrun(take: number): { taken: Array<string>, count: number, success: boolean; } {
-		const nothing = { taken: [], count: 0, success: false };
-
+	private wordrun(take: number): wordrun {
 		let taken = new Array<string>();
-		let count = 0;
+		let consumed = 0;
 
 		while (taken.length < take) {
-			const ok = this.fill(count);
+			const ok = this.fill(consumed);
 			if (!ok) {
 				// Not enough (buffered) tokens to continue
 				// So, a word run of length `take` is impossible
 				return nothing;
 			}
 
-			const token = this.buffer[count];
+			const token = this.buffer[consumed];
 
 			// Note: test for punct before space; newlines and tabs can be
 			// considered both punct and space (depending on the tokenizer!)
@@ -149,17 +147,19 @@ class LemmatizedTokens implements Iterable<Token> {
 
 			if (token.isSpace) {
 				// Ignore and continue
-				count++;
+				consumed++;
 				continue;
 			}
 
 			// Found a word
 			taken.push(token.value);
-			count++;
+			consumed++;
 		}
 
-		return { taken, count, success: true };
+		const result: wordrun = { taken, consumed, success: true };
+		return result;
 	}
+
 	private drop(n: number) {
 		this.buffer.splice(0, n);
 	}
@@ -176,3 +176,6 @@ class LemmatizedTokens implements Iterable<Token> {
 		return true;
 	}
 }
+
+type wordrun = { taken: Array<string>, consumed: number, success: boolean; };
+const nothing: wordrun = { taken: new Array<string>(0), consumed: 0, success: false };
