@@ -1,3 +1,6 @@
+
+// This file is generated. Best not to modify it, as it will likely be overwritten.
+
 export default new Map<string, string>([
 	[".ajax", "ajax"],
 	[".bashprofile", "bash"],
@@ -907,6 +910,7 @@ export default new Map<string, string>([
 	["ifthen", "if-statement"],
 	["ifthenelse", "if-statement"],
 	["ignoreduplicates", "duplicates"],
+	["iis6", "iis"],
 	["iis7", "iis"],
 	["immutable", "immutability"],
 	["immutableclass", "immutability"],
@@ -1788,7 +1792,6 @@ export default new Map<string, string>([
 	["struts", "struts2"],
 	["style", "styles"],
 	["stylecsstemplatefile", "css"],
-	["stylesheets", "stylesheet"],
 	["subarrays", "arrays"],
 	["subclasses", "subclass"],
 	["subdirectories", "directory"],
@@ -2177,5 +2180,5 @@ export default new Map<string, string>([
 	["zf2", "zend-framework2"],
 	["zone", "dns-zone"],
 	["zookeeper", "apache-zookeeper"],
-	["zooming", "zoom"]
+	["zooming", "zoom"],
 ]);

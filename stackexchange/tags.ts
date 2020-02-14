@@ -1,3 +1,6 @@
+
+// This file is generated. Best not to modify it, as it will likely be overwritten.
+
 export default new Map<string, string>([
 	[".htaccess", ".htaccess"],
 	[".net", ".net"],
@@ -1036,7 +1039,6 @@ export default new Map<string, string>([
 	["ibmdomino", "ibm-domino"],
 	["ibmmobilefirst", "ibm-mobilefirst"],
 	["ibmmq", "ibm-mq"],
-	["icmp", "icmp"],
 	["icons", "icons"],
 	["ide", "ide"],
 	["identityserver4", "identityserver4"],
@@ -2114,7 +2116,6 @@ export default new Map<string, string>([
 	["struts", "struts"],
 	["struts2", "struts2"],
 	["styles", "styles"],
-	["stylesheet", "stylesheet"],
 	["subclass", "subclass"],
 	["subdomain", "subdomain"],
 	["sublimetext", "sublimetext"],
@@ -2167,6 +2168,7 @@ export default new Map<string, string>([
 	["task", "task"],
 	["taskparallellibrary", "task-parallel-library"],
 	["taskscheduler", "task-scheduler"],
+	["tc", "tc"],
 	["tcl", "tcl"],
 	["tcp", "tcp"],
 	["tcpdump", "tcpdump"],
@@ -2534,5 +2536,5 @@ export default new Map<string, string>([
 	["zip", "zip"],
 	["zoom", "zoom"],
 	["zsh", "zsh"],
-	["zurbfoundation", "zurb-foundation"]
+	["zurbfoundation", "zurb-foundation"],
 ]);
