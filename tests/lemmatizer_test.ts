@@ -1,6 +1,7 @@
-import contractions from "../contractions";
+import contractions from "../contractions/dictionary";
+import stackexchange from "../stackexchange/dictionary";
+
 import Lemmatize from "../lemmatizer";
-import stackexchange from "../stackexchange";
 import Token from "../token";
 import Tokenize from "../tokenizer";
 import testrun from "./testrun";
@@ -115,7 +116,7 @@ function testDict(tokens: Iterable<Token>, expecteds: Iterable<expected>) {
 {
 	// Test no dictionary
 	const text = "She'd enjoy react.js";
-	let caught: string | undefined;
+	let caught: string | undefined | unknown;
 	try {
 		Lemmatize(text);
 	} catch (error) {
@@ -127,7 +128,7 @@ function testDict(tokens: Iterable<Token>, expecteds: Iterable<expected>) {
 {
 	// Test bad dictionary
 	const text = "She'd enjoy react.js";
-	let caught: string | undefined;
+	let caught: string | undefined | unknown;
 	try {
 		Lemmatize(text, {} as IDictionary);
 	} catch (error) {

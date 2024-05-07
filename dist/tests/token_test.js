@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const testrun_1 = __importDefault(require("./testrun"));
+const token_1 = __importDefault(require("../token"));
+const test = new testrun_1.default('token');
+const word = new token_1.default("foo");
+test.assert(!word.isPunct, `token ${word} should not be punctuation`);
+test.assert(!word.isSpace, `token ${word} should not be space`);
+const punct = new token_1.default(",");
+test.assert(punct.isPunct, `token ${punct} should be punctuation`);
+test.assert(!punct.isSpace, `token ${punct} should not be space`);
+const space = new token_1.default(" ");
+test.assert(space.isSpace, `token ${space} should be space`);
+test.assert(!space.isPunct, `token ${space} should not be punct`);
+const lf = new token_1.default("\n");
+test.assert(lf.isSpace, `token ${lf} should be space`);
+test.assert(lf.isPunct, `token ${lf} should be punct`);
+test.report();

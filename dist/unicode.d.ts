@@ -9,6 +9,6 @@ declare global {
         mightBeMidPunct(): boolean;
     }
 }
-declare type runeSet = {
+type runeSet = {
     [rune: string]: boolean;
 };

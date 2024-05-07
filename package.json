@@ -1,13 +1,15 @@
 {
 	"name": "@clipperhouse/jargon",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "A tokenizer and lemmatizer for canonical terms in text",
-	"main": "./jargon.js",
-	"types": "./types/jargon.d.ts",
+	"main": "./dist/jargon.js",
+	"types": "./dist/jargon.d.ts",
 	"scripts": {
-		"test": "node tests/all.js"
+		"test": "node ./dist/tests/all.js",
+		"build": "rm -rf dist && tsc && cp ./contractions/package.json ./dist/contractions/ && cp ./stackexchange/package.json ./dist/stackexchange/",
+		"clean": "find . -name \"*.js\" -type f -delete"
 	},
-	"author": "Matt Sherman <mwsherman@gmail.com> (https://clipperhouse.com/about/)",
+	"author": "Matt Sherman <mwsherman@gmail.com> (https://github.com/clipperhouse)",
 	"license": "MIT",
 	"repository": {
 		"type": "git",

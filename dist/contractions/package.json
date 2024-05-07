@@ -1,0 +1,9 @@
+{
+	"name": "@clipperhouse/contractions",
+	"version": "0.0.1",
+	"description": "A dictionary for use with the @clipperhouse/jargon package",
+	"main": "dictionary.js",
+	"scripts": {},
+	"author": "Matt Sherman",
+	"license": "ISC"
+}
